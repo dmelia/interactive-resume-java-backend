@@ -1,4 +1,4 @@
-package com.interactiveresume.Interactive.Resume.Backend.models;
+package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
 import jakarta.persistence.*;
 import lombok.*;

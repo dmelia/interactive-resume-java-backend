@@ -1,7 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.impl;
 
-import com.interactiveresume.Interactive.Resume.Backend.models.Resume;
-import com.interactiveresume.Interactive.Resume.Backend.models.User;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.Resume;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.ResumeService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

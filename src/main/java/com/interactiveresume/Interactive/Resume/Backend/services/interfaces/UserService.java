@@ -1,6 +1,6 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.interfaces;
 
-import com.interactiveresume.Interactive.Resume.Backend.models.User;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
 
 import java.util.List;
 

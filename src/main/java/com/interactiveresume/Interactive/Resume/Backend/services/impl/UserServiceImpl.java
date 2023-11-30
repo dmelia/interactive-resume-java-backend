@@ -1,7 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.impl;
 
 import com.interactiveresume.Interactive.Resume.Backend.jpa.UserJPARepository;
-import com.interactiveresume.Interactive.Resume.Backend.models.User;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;

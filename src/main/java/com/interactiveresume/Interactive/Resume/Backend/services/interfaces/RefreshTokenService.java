@@ -1,7 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.interfaces;
 
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.TokenNotFoundException;
-import com.interactiveresume.Interactive.Resume.Backend.models.RefreshToken;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.RefreshToken;
 
 public interface RefreshTokenService {
     public RefreshToken createRefreshToken(String username);

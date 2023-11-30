@@ -2,7 +2,7 @@ package com.interactiveresume.Interactive.Resume.Backend.services.impl;
 
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.TokenNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.RefreshTokenJPARepository;
-import com.interactiveresume.Interactive.Resume.Backend.models.RefreshToken;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.RefreshToken;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.RefreshTokenService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.UserService;
 import jakarta.transaction.Transactional;
