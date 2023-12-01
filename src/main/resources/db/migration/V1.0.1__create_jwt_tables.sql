@@ -8,6 +8,3 @@ CREATE TABLE public.refresh_tokens
         CONSTRAINT fk_users_refresh_tokens
             REFERENCES public.users
 );
-
-
-

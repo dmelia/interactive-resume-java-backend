@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelField;
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.UserDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
+import com.interactiveresume.Interactive.Resume.Backend.utils.EncryptionService;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -44,6 +47,16 @@ public class User implements DataTransferObject<UserDTO> {
     @ModelField(name = "password")
     private String password;
 
+    /**
+     * Used to automatically encrypt the password when saving to the database
+     */
+    @PrePersist
+    public void encryptPassword() {
+        if (this.password != null) {
+            PasswordEncoder passwordEncoder = EncryptionService.passwordEncoder();
+            this.password = passwordEncoder.encode(this.password);
+        }
+    }
 
     @Column(name = "firstname", length = 50)
     @NotNull

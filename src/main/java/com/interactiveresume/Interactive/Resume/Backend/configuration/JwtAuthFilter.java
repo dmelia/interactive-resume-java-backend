@@ -34,7 +34,6 @@ public class JwtAuthFilter extends HttpFilter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;

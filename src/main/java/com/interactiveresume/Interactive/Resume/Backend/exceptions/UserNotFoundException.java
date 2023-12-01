@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class TokenNotFoundException extends Exception {
-
-    public TokenNotFoundException() {
-        super("JWT token could not be found");
+public class UserNotFoundException extends Throwable {
+    public UserNotFoundException() {
+        super("User could not be found");
     }
 
-    public TokenNotFoundException(Throwable cause) {
+    public UserNotFoundException(Throwable cause) {
         super(cause);
     }
 }

@@ -1,6 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.configuration;
 
 import com.interactiveresume.Interactive.Resume.Backend.constants.Constants;
+import com.interactiveresume.Interactive.Resume.Backend.utils.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,18 +29,18 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
-    @Autowired
-    JwtAuthFilter jwtAuthFilter;
+    private final JwtAuthFilter jwtAuthFilter;
 
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService, JwtAuthFilter jwtAuthFilter) {
         this.userDetailsService = userDetailsService;
+        this.jwtAuthFilter = jwtAuthFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers(API_ENDPOINT + "/save", API_ENDPOINT + "/login", API_ENDPOINT + "/refreshToken").permitAll()
+                .requestMatchers(API_ENDPOINT + "/signup", API_ENDPOINT + "/login", API_ENDPOINT + "/refreshToken").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers(API_ENDPOINT + "/**")
                 .authenticated()
@@ -52,12 +53,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return EncryptionService.passwordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
