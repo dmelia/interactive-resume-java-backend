@@ -1,5 +1,6 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
+import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,24 +9,21 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Resume {
 
 
     @Id
     @GeneratedValue
-    @Getter
-    @Setter
+    @Column(name = "id")
     private Long id;
 
-    @Getter
-    @Setter
     @Column(name = "name")
     private String name;
 
-    @Getter
-    @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
     @Version

@@ -2,7 +2,7 @@ package com.interactiveresume.Interactive.Resume.Backend.data.dtos;
 
 import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelField;
 import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.RefreshToken;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.Role;
 import lombok.*;
 
 import java.io.Serializable;
@@ -13,13 +13,12 @@ import java.io.Serializable;
 @Builder
 @Getter
 @Setter
-public class RefreshTokenRequestDTO implements Serializable, DataTransferObject<RefreshToken> {
+public class RoleDTO implements Serializable, DataTransferObject<Role> {
 
-    @ModelField(name = "token")
-    private String token;
-
+    @ModelField(name = "name")
+    private String name;
     @Override
-    public Class<RefreshToken> getModelClass() {
-        return RefreshToken.class;
+    public Class<Role> getModelClass() {
+        return Role.class;
     }
 }

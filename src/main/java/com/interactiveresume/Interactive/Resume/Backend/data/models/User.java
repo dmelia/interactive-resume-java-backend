@@ -18,11 +18,11 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class User implements DataTransferObject<UserDTO> {
 
-    @Getter
-    @Setter
-    @JsonIgnore
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
@@ -30,16 +30,13 @@ public class User implements DataTransferObject<UserDTO> {
     @ModelField(name = "id")
     private Long id;
 
-    @Getter
-    @Setter
     @Column(name = "username", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
     @ModelField(name = "username")
     private String username;
 
-    @Getter
-    @Setter
+
     @JsonIgnore
     @Column(name = "password", length = 100)
     @NotNull
@@ -47,32 +44,28 @@ public class User implements DataTransferObject<UserDTO> {
     @ModelField(name = "password")
     private String password;
 
-    @Getter
-    @Setter
+
     @Column(name = "firstname", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     @ModelField(name = "firstname")
     private String firstname;
 
-    @Getter
-    @Setter
+
     @Column(name = "lastname", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     @ModelField(name = "lastname")
     private String lastname;
 
-    @Getter
-    @Setter
+
     @Column(name = "email", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     @ModelField(name = "email")
     private String email;
 
-    @Getter
-    @Setter
+
     @JsonIgnore
     @Column(name = "active")
     @NotNull
@@ -84,21 +77,19 @@ public class User implements DataTransferObject<UserDTO> {
     @Column(name = "version")
     private int version;
 
-    @Getter
-    @Setter
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
-    @ModelField(name = "active")
+    @ModelField(name = "roles")
     private Set<Role> roles = new HashSet<>();
 
-    @Getter
-    @Setter
+
     @OneToMany(mappedBy = "user")
-    @ModelField(name = "active")
+    @ModelField(name = "resumes")
     private List<Resume> resumes = new ArrayList<>();
 
     @Override

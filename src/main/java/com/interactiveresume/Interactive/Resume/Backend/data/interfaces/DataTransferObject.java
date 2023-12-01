@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface DataTransferObject<Model> {
 
-    default Model getModelFromDTO() {
+    default Model getModelFromDTO() throws NoSuchFieldException, InstantiationException, IllegalAccessException {
         Field[] dtoFields = this.getClass().getDeclaredFields();
 
         try {
@@ -35,8 +35,7 @@ public interface DataTransferObject<Model> {
 
             return model;
         } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace(); // Handle exceptions based on your application's requirements
-            return null;
+            throw e;
         }
     }
 
@@ -59,7 +58,7 @@ public interface DataTransferObject<Model> {
     }
 
     // Helper method to handle population of Collection fields
-    default void handleCollectionField(Field dtoField, Field modelField, Model model) throws IllegalAccessException {
+    default void handleCollectionField(Field dtoField, Field modelField, Model model) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Collection<?> dtoCollection = (Collection<?>) dtoField.get(this);
         Collection<Object> modelCollection = (Collection<Object>) modelField.get(model);
 

@@ -18,6 +18,7 @@ import java.util.Set;
 @Setter
 public class UserDTO implements Serializable, DataTransferObject<User> {
 
+    @Nullable
     @ModelField(name = "id")
     private Long id;
 
@@ -30,8 +31,9 @@ public class UserDTO implements Serializable, DataTransferObject<User> {
     private String password;
 
     @ModelField(name = "password")
-    private Set<String> roles;
+    private Set<RoleDTO> roles;
 
+    @Nullable
     @ModelField(name = "active")
     private boolean activated;
 

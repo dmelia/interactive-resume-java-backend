@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InteractiveResumeBackendApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(InteractiveResumeBackendApplication.class, args);
+
 	}
 
 }
