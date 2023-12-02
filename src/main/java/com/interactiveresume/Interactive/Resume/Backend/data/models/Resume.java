@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Resume {
+public class Resume{
 
 
     @Id

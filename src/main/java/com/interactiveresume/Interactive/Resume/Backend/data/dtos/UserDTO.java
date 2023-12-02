@@ -1,6 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelCollection;
 import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelField;
 import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
@@ -30,7 +31,7 @@ public class UserDTO implements Serializable, DataTransferObject<User> {
     @ModelField(name = "password")
     private String password;
 
-    @ModelField(name = "password")
+    @ModelCollection(name = "password")
     private Set<RoleDTO> roles;
 
     @Nullable

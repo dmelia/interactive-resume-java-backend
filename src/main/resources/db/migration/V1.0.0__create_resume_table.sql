@@ -2,7 +2,7 @@ CREATE TABLE public.users
 (
     active    boolean,
     id        serial NOT NULL PRIMARY KEY,
-    email     VARCHAR(50),
+    email     VARCHAR(50) UNIQUE,
     firstname VARCHAR(50),
     lastname  VARCHAR(50),
     username  VARCHAR(50) UNIQUE,

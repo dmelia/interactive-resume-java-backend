@@ -1,6 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelCollection;
 import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelField;
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.UserDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
@@ -9,9 +10,9 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
@@ -72,10 +73,11 @@ public class User implements DataTransferObject<UserDTO> {
     private String lastname;
 
 
-    @Column(name = "email", length = 50)
+    @Column(name = "email", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
     @ModelField(name = "email")
+    @Email
     private String email;
 
 
@@ -97,12 +99,12 @@ public class User implements DataTransferObject<UserDTO> {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
-    @ModelField(name = "roles")
+    @ModelCollection(name = "roles")
     private Set<Role> roles = new HashSet<>();
 
 
     @OneToMany(mappedBy = "user")
-    @ModelField(name = "resumes")
+    //@ModelCollection(name = "resumes")
     private List<Resume> resumes = new ArrayList<>();
 
     @Override

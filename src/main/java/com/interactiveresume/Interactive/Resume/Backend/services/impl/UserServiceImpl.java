@@ -20,12 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserJPARepository userJPARepository;
+
+    //TODO use this and then return an exception if email is not valid
+    private static final Pattern EMAIL = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean isEmail(String s) {
+        return EMAIL.matcher(s).matches();
+    }
 
     public UserServiceImpl(UserJPARepository userJPARepository) {
         this.userJPARepository = userJPARepository;
@@ -69,17 +77,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user) {
         User savedUser = null;
-
-        userJPARepository.save(user);
-
-
-        return null;
+        savedUser = userJPARepository.save(user);
+        return savedUser;
     }
 
     //TODO
     @Override
     public User createUser(User user) {
-        return null;
+        User savedUser = null;
+        savedUser = userJPARepository.save(user);
+        return savedUser;
     }
 
     //TODO
