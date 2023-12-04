@@ -10,8 +10,4 @@ public class UserNotFoundException extends Throwable {
     public UserNotFoundException() {
         super("User could not be found");
     }
-
-    public UserNotFoundException(Throwable cause) {
-        super(cause);
-    }
 }

@@ -23,16 +23,25 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.secret}")
     public static String SECRET;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -52,12 +61,18 @@ public class JwtServiceImpl implements JwtService {
         return extractExpiration(token).before(new Date());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String GenerateToken(String username) {
         Map<String, Object> claims = new HashMap<>();

@@ -5,10 +5,16 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.UserDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
 import org.springframework.stereotype.Component;
 
+/**
+ * The User and UserDTO mapper
+ */
 @Component
 public class UserDTOMapper implements DTOMapper<UserDTO, User>{
 
-   @Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDTO mapModel(User model) {
         return UserDTO.builder()
                 .username(model.getUsername())
@@ -21,6 +27,9 @@ public class UserDTOMapper implements DTOMapper<UserDTO, User>{
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User mapDTO(UserDTO dto) {
         return User.builder()

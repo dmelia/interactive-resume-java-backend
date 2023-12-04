@@ -25,6 +25,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         this.refreshTokenJPARepository = refreshTokenJPARepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RefreshToken createRefreshToken(String username) {
         RefreshToken refreshToken = RefreshToken.builder()
@@ -35,6 +38,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         return refreshTokenJPARepository.saveAndFlush(refreshToken);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
@@ -45,6 +51,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         return token;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RefreshToken findByToken(String token) throws TokenNotFoundException {
         Optional<RefreshToken> optionalRefreshToken = refreshTokenJPARepository.findByToken(token);
