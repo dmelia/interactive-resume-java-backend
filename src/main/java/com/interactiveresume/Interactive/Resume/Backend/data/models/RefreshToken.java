@@ -1,8 +1,5 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelField;
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.RefreshTokenRequestDTO;
-import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +13,7 @@ import java.time.Instant;
 @Table(name = "refresh_tokens")
 @Getter
 @Setter
-public class RefreshToken implements DataTransferObject<RefreshTokenRequestDTO> {
+public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +21,6 @@ public class RefreshToken implements DataTransferObject<RefreshTokenRequestDTO> 
     private int id;
 
     @Column(name = "token")
-    @ModelField(name = "token")
     private String token;
 
     @Column(name = "expires")
@@ -39,9 +35,4 @@ public class RefreshToken implements DataTransferObject<RefreshTokenRequestDTO> 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
-
-    @Override
-    public Class<RefreshTokenRequestDTO> getModelClass() {
-        return RefreshTokenRequestDTO.class;
-    }
 }

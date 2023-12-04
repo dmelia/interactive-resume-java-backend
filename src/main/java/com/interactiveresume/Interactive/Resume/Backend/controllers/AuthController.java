@@ -4,14 +4,13 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.AuthRequestDTO
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.JwtResponseDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.RefreshTokenRequestDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.UserDTO;
+import com.interactiveresume.Interactive.Resume.Backend.data.mapping.UserDTOMapper;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.RefreshToken;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.TokenNotFoundException;
-import com.interactiveresume.Interactive.Resume.Backend.jpa.UserJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.JwtService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.RefreshTokenService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,13 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.API_ENDPOINT;
+import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.AUTH_ENDPOINT;
 
 @RestController
-@RequestMapping(API_ENDPOINT)
-public class UserController {
+@RequestMapping(AUTH_ENDPOINT)
+public class AuthController {
     private final UserService userService;
 
     private final JwtService jwtService;
@@ -36,21 +33,21 @@ public class UserController {
 
     private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService, JwtService jwtService, RefreshTokenService refreshTokenService, AuthenticationManager authenticationManager) {
+    private final UserDTOMapper userDTOMapper;
+
+    public AuthController(UserService userService, JwtService jwtService, RefreshTokenService refreshTokenService, AuthenticationManager authenticationManager, UserDTOMapper userDTOMapper) {
         this.userService = userService;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
         this.authenticationManager = authenticationManager;
+        this.userDTOMapper = userDTOMapper;
     }
 
     @PostMapping(value = "/signup")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
-        try {
-            User user = userService.createUser(userDTO.getModelFromDTO());
-            return new ResponseEntity<>(user.getModelFromDTO(), HttpStatus.OK);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            User user = userService.createUser(userDTOMapper.mapDTO(userDTO));
+            System.out.println(user.getUsername());
+            return new ResponseEntity<>(userDTOMapper.mapModel(user), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

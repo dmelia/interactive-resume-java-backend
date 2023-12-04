@@ -84,9 +84,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //TODO
     @Override
     public User createUser(User user) {
-        User savedUser = null;
-        savedUser = userJPARepository.save(user);
-        return savedUser;
+        user.setActive(true);
+        return userJPARepository.save(user);
     }
 
     //TODO

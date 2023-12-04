@@ -1,8 +1,6 @@
 package com.interactiveresume.Interactive.Resume.Backend.configuration;
 
-import com.interactiveresume.Interactive.Resume.Backend.constants.Constants;
 import com.interactiveresume.Interactive.Resume.Backend.utils.EncryptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,12 +12,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.API_ENDPOINT;
+import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.AUTH_ENDPOINT;
 
 @Configuration
 @EnableWebSecurity
@@ -38,18 +36,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers(API_ENDPOINT + "/signup", API_ENDPOINT + "/login", API_ENDPOINT + "/refreshToken").permitAll()
+                    .requestMatchers(AUTH_ENDPOINT + "/signup", AUTH_ENDPOINT + "/login", AUTH_ENDPOINT + "/refreshToken").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers(API_ENDPOINT + "/**")
-                .authenticated()
+                    .authorizeHttpRequests().requestMatchers(API_ENDPOINT + "/**")
+                    .authenticated()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider())
-                .addFilterAt(this.jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
+                    .authenticationProvider(authenticationProvider())
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
@@ -63,12 +62,10 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 }

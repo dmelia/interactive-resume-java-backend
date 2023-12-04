@@ -1,6 +1,5 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
 import jakarta.persistence.*;
 import lombok.*;
 

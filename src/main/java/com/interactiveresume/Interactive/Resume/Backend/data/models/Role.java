@@ -1,8 +1,5 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.annotations.ModelField;
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.RoleDTO;
-import com.interactiveresume.Interactive.Resume.Backend.data.interfaces.DataTransferObject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,12 +16,11 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Role implements DataTransferObject<RoleDTO> {
+public class Role {
 
     @Id
     @Column(name = "name", length = 50, unique = true)
     @NotNull
-    @ModelField(name = "name")
     private String name;
 
     @Override
@@ -45,10 +41,5 @@ public class Role implements DataTransferObject<RoleDTO> {
         return "Authority{" +
                 "name=" + name +
                 '}';
-    }
-
-    @Override
-    public Class<RoleDTO> getModelClass() {
-        return RoleDTO.class;
     }
 }
