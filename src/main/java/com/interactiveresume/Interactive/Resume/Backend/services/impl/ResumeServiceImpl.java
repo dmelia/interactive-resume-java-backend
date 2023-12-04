@@ -11,16 +11,26 @@ import java.util.List;
 @Service
 @Transactional
 public class ResumeServiceImpl implements ResumeService {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Resume> findResumeByUser(User user) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void saveResume(Resume resume) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteResume(Resume resume) {
 
