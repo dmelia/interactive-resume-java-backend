@@ -1,6 +1,6 @@
 # interactive-resume-java-backend
 
-The Resume Management System is a Java Spring Boot application that allows users to generate, share, and download ATS (Applicant Tracking System) compliant resumes. Additionally, the system helps users manage their job search activities through a table containing information such as date/time of contact with a company, the name of the company, contact person, notification dates, and more.
+The Interactive Resume Backend project is a Java Spring Boot application that allows users to generate, share, and download ATS (Applicant Tracking System) compliant resumes. Additionally, the system helps users manage their job search activities through a table containing information such as date/time of contact with a company, the name of the company, contact person, notification dates, and more.
 
 ## Features
 
@@ -55,6 +55,7 @@ The Resume Management System is a Java Spring Boot application that allows users
 1. **Log in**:
     - Create an account from the top menu of the application.
     - Fill in the required information.
+    - Log in to the application.
 
 2. **Resume Generation**:
     - Navigate to the "Resume Generator" section.
