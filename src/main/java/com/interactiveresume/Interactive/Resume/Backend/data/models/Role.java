@@ -9,13 +9,12 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "roles")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class Role {
 
     @Id

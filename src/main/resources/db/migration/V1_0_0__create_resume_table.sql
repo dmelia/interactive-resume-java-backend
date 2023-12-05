@@ -10,6 +10,8 @@ CREATE TABLE public.users
     version   INTEGER
 );
 
+CREATE UNIQUE INDEX idx_user_id ON public.users (id);
+
 CREATE TABLE public.roles
 (
     name VARCHAR(50) NOT NULL PRIMARY KEY
@@ -20,18 +22,23 @@ CREATE TABLE public.resumes
     id      serial NOT NULL PRIMARY KEY,
     name    VARCHAR(255),
     version INTEGER,
-    user_id bigint NOT NULL
-        CONSTRAINT fk_users_resumes
-            REFERENCES public.users
+    user_id bigint NOT NULL,
+    CONSTRAINT fk_users_resumes_id
+        FOREIGN KEY (user_id)
+            REFERENCES public.users (id)
 );
+
+CREATE UNIQUE INDEX idx_resume_id ON public.resumes (id);
 
 CREATE TABLE public.users_roles
 (
-    user_id   bigint      NOT NULL
-        CONSTRAINT fk_users_roles_users
-            REFERENCES users,
-    role_name VARCHAR(50) NOT NULL
-        CONSTRAINT fk_users_roles_roles
+    user_id   bigint      NOT NULL,
+    CONSTRAINT fk_users_roles_users_id
+        FOREIGN KEY (user_id)
+            REFERENCES public.users (id),
+    role_name VARCHAR(50) NOT NULL,
+    CONSTRAINT fk_users_roles_roles_name
+        FOREIGN KEY (role_name)
             REFERENCES public.roles,
     PRIMARY KEY (user_id, role_name)
 );

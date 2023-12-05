@@ -3,19 +3,19 @@ package com.interactiveresume.Interactive.Resume.Backend.data.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
+@Data
 @Entity
 @Table(name = "resumes")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Resume{
-
+public class Resume {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private Long id;
 
     @Column(name = "name")
@@ -29,4 +29,7 @@ public class Resume{
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
+
+    @OneToMany(mappedBy = "resume")
+    private List<CVExperience> experiences;
 }
