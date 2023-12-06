@@ -20,6 +20,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final RefreshTokenJPARepository refreshTokenJPARepository;
     private final UserService userService;
 
+    /**
+     * Constructor
+     * @param userService
+     * @param refreshTokenJPARepository
+     */
     public RefreshTokenServiceImpl(UserService userService, RefreshTokenJPARepository refreshTokenJPARepository) {
         this.userService = userService;
         this.refreshTokenJPARepository = refreshTokenJPARepository;

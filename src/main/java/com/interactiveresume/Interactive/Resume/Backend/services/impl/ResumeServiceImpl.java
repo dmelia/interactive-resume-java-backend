@@ -18,11 +18,19 @@ import java.util.Optional;
 @Transactional
 public class ResumeServiceImpl implements ResumeService {
 
-    @Autowired
-    private ResumeJPARepository resumeJPARepository;
+    private final ResumeJPARepository resumeJPARepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    /**
+     * Constructor
+     * @param resumeJPARepository
+     * @param userService
+     */
+    public ResumeServiceImpl(ResumeJPARepository resumeJPARepository, UserService userService) {
+        this.resumeJPARepository = resumeJPARepository;
+        this.userService = userService;
+    }
 
     /**
      * {@inheritDoc}

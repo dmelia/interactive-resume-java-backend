@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return EMAIL.matcher(input).matches();
     }
 
+    /**
+     * Constructor
+     * @param userJPARepository
+     */
     public UserServiceImpl(UserJPARepository userJPARepository) {
         this.userJPARepository = userJPARepository;
     }

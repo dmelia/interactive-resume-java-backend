@@ -20,6 +20,7 @@ import java.util.function.Function;
 @Service
 @Transactional
 public class JwtServiceImpl implements JwtService {
+    // The secret string used for cryptography
     @Value("${jwt.secret}")
     public static String SECRET;
 
@@ -80,7 +81,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String createToken(Map<String, Object> claims, String username) {
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
