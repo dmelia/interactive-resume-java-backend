@@ -8,8 +8,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
 public class RefreshTokenRequestDTO implements Serializable {
 
     private String token;

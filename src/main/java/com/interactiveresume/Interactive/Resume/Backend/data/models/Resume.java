@@ -3,6 +3,7 @@ package com.interactiveresume.Interactive.Resume.Backend.data.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,5 +32,5 @@ public class Resume {
     private int version;
 
     @OneToMany(mappedBy = "resume")
-    private List<CVExperience> experiences;
+    private List<CVExperience> experiences = new ArrayList<>();
 }

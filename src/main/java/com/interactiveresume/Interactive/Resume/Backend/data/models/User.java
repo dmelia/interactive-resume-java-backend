@@ -85,12 +85,11 @@ public class User {
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+            inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    //@ModelCollection(name = "resumes")
     private List<Resume> resumes = new ArrayList<>();
 
     @Override

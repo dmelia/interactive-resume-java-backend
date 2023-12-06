@@ -2,6 +2,7 @@ package com.interactiveresume.Interactive.Resume.Backend.services.interfaces;
 
 import com.interactiveresume.Interactive.Resume.Backend.data.models.Resume;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 
 import java.util.List;
 
@@ -16,8 +17,9 @@ public interface ResumeService {
     /**
      * Creates or updates a {@link Resume} to the database
      * @param resume The {@link Resume} to create or update
+     * @return the saved {@link Resume}
      */
-    void saveResume(Resume resume);
+    Resume saveResume(Resume resume) throws UserNotFoundException;
 
     /**
      * Deletes a {@link Resume} from the database
