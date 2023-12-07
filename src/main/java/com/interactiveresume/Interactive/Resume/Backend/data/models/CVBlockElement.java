@@ -7,11 +7,11 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "resume_experiences")
+@Table(name = "resume_block_elements")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CVExperience {
+public class CVBlockElement {
 
     @Id
     @GeneratedValue
@@ -36,8 +36,8 @@ public class CVExperience {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "current")
-    private Boolean currentPosition;
+    @Column(name = "link")
+    private String link;
 
     @Column(name = "footnotes")
     private String footnotes;
