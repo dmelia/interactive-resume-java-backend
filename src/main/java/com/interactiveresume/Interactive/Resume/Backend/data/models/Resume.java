@@ -3,8 +3,7 @@ package com.interactiveresume.Interactive.Resume.Backend.data.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -22,6 +21,7 @@ public class Resume {
     @Column(name = "name")
     private String name;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
@@ -30,7 +30,4 @@ public class Resume {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
-
-    @OneToMany(mappedBy = "resume")
-    private List<CVExperience> experiences = new ArrayList<>();
 }

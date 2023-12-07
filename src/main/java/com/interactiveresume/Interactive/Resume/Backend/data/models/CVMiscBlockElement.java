@@ -1,18 +1,21 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "resume_block_elements")
+@Table(name = "resume_misc_block_elements")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CVBlockElement {
+public class CVMiscBlockElement {
 
     @Id
     @GeneratedValue
@@ -24,9 +27,6 @@ public class CVBlockElement {
 
     @Column(name = "title")
     private String title;
-
-    @Column(name = "company")
-    private String company;
 
     @Column(name = "description")
     private String description;
@@ -57,5 +57,5 @@ public class CVBlockElement {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "block_id", referencedColumnName = "id", nullable = false)
-    private CVBlock block;
+    private CVMiscBlock block;
 }

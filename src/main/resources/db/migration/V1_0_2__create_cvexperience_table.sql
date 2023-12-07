@@ -1,13 +1,13 @@
-CREATE TABLE resume_experiences
+CREATE TABLE resume_block_elements
 (
     id          SERIAL PRIMARY KEY,
-    placement     INT,
+    placement   INT,
     title       VARCHAR(255),
     company     VARCHAR(255),
+    link        VARCHAR(255),
     description TEXT,
     start_date  DATE,
     end_date    DATE,
-    current     BOOLEAN,
     footnotes   TEXT,
     notes       TEXT,
     resume_id   BIGINT NOT NULL,
