@@ -21,6 +21,9 @@ public class Resume {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "icon")
+    private String icon;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
