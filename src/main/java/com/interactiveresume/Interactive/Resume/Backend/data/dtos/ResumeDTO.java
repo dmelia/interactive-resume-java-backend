@@ -18,4 +18,7 @@ public class ResumeDTO {
 
     @Nullable
     private String name;
+
+    @Nullable
+    private String icon;
 }

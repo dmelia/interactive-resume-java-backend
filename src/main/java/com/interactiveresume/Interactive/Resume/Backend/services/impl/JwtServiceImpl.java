@@ -7,6 +7,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
     // The secret string used for cryptography
     @Value("${jwt.secret}")
-    public static String SECRET;
+    private String SECRET;
 
     /**
      * {@inheritDoc}

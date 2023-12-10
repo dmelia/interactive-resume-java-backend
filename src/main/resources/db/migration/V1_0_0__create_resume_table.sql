@@ -2,11 +2,11 @@ CREATE TABLE public.users
 (
     active    boolean,
     id        serial NOT NULL PRIMARY KEY,
-    email     VARCHAR(50) UNIQUE,
-    firstname VARCHAR(50),
-    lastname  VARCHAR(50),
-    username  VARCHAR(50) UNIQUE,
-    password  VARCHAR(100),
+    email     VARCHAR(100) UNIQUE,
+    firstname VARCHAR(100),
+    lastname  VARCHAR(100),
+    username  VARCHAR(255) UNIQUE,
+    password  VARCHAR(255),
     version   INTEGER
 );
 

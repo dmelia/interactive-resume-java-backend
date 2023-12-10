@@ -23,7 +23,7 @@ public class UserDTOMapper implements DTOMapper<UserDTO, User>{
                 .firstname(model.getFirstname())
                 .id(model.getId())
                 .lastname(model.getLastname())
-                .password(model.getPassword())
+                //.password(model.getPassword()) We never return the password from the model
                 .build();
     }
 

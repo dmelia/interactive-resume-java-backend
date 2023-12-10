@@ -13,6 +13,7 @@ public class ResumeDTOMapper implements DTOMapper<ResumeDTO, Resume> {
         return ResumeDTO.builder()
                 .id(resume.getId())
                 .name(resume.getName())
+                .icon(resume.getIcon())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class ResumeDTOMapper implements DTOMapper<ResumeDTO, Resume> {
         return Resume.builder()
                 .name(resumeDTO.getName())
                 .id(resumeDTO.getId())
+                .icon(resumeDTO.getIcon())
                 .build();
     }
 }

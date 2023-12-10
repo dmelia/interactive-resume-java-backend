@@ -89,6 +89,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user) {
         User savedUser = null;
+        if (!isEmail(user.getEmail())) {
+            throw new InputInvalidException();
+        }
         savedUser = userJPARepository.save(user);
         return savedUser;
     }
@@ -147,7 +150,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOptional = userJPARepository.findByUsername(username);
 
-        if(userOptional.isEmpty()) {
+        if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException(String.format("The username %s doesn't exist", username));
         }
 

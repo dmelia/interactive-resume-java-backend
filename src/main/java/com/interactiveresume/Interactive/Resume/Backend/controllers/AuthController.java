@@ -12,6 +12,7 @@ import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.JwtS
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.RefreshTokenService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,24 +62,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO) {
+    public ResponseEntity<JwtResponseDTO> AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if (authentication.isAuthenticated()) {
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUsername());
-            return JwtResponseDTO.builder()
+            return new ResponseEntity<>(JwtResponseDTO.builder()
                     .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername()))
-                    .token(refreshToken.getToken()).build();
+                    .token(refreshToken.getToken()).build(), HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request..!!");
         }
     }
 
     @PostMapping("/refreshToken")
-    public JwtResponseDTO refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) throws TokenNotFoundException {
+    public ResponseEntity<JwtResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) throws TokenNotFoundException {
         RefreshToken token = refreshTokenService.findByToken(refreshTokenRequestDTO.getToken());
         token = refreshTokenService.verifyExpiration(token);
         User userInfo = token.getUserInfo();
         String accessToken = jwtService.GenerateToken(userInfo.getUsername());
-        return JwtResponseDTO.builder().accessToken(accessToken).token(refreshTokenRequestDTO.getToken()).build();
+        return new ResponseEntity<>(JwtResponseDTO.builder().accessToken(accessToken).token(refreshTokenRequestDTO.getToken()).build(), HttpStatus.OK);
     }
 }

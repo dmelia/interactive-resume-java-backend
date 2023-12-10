@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS public.resume_section_types
     icon        VARCHAR,
     generic     BOOLEAN,
     version     INT,
-    resume_id   BIGINT REFERENCES public.resumes (id),
-    CONSTRAINT unique_resume_section_types UNIQUE (title)
+    -- The reference to the resume can be null, in the case of a generic section type
+    resume_id   BIGINT REFERENCES public.resumes (id) NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.resume_section_input_types
@@ -43,16 +43,16 @@ CREATE TABLE IF NOT EXISTS public.resume_element_values
 );
 
 -- Index for faster lookups on resume_section_types
-CREATE INDEX idx_resume_section_types_title ON public.resume_section_types(title);
+CREATE INDEX idx_resume_section_types_title ON public.resume_section_types (title);
 
 -- Index for faster lookups on resume_section_input_types
-CREATE INDEX idx_resume_section_input_types_title ON public.resume_section_input_types(title);
-CREATE INDEX idx_resume_section_input_types_section_type_id ON public.resume_section_input_types(section_type_id);
+CREATE INDEX idx_resume_section_input_types_title ON public.resume_section_input_types (title);
+CREATE INDEX idx_resume_section_input_types_section_type_id ON public.resume_section_input_types (section_type_id);
 
 -- Index for faster lookups on resume_section_elements
-CREATE INDEX idx_resume_section_elements_position ON public.resume_section_elements(position);
-CREATE INDEX idx_resume_section_elements_section_type_id ON public.resume_section_elements(section_type_id);
+CREATE INDEX idx_resume_section_elements_position ON public.resume_section_elements (position);
+CREATE INDEX idx_resume_section_elements_section_type_id ON public.resume_section_elements (section_type_id);
 
 -- Index for faster lookups on resume_element_values
-CREATE INDEX idx_resume_element_values_section_element_id ON public.resume_element_values(section_element_id);
-CREATE INDEX idx_resume_element_values_input_type_id ON public.resume_element_values(input_type_id);
+CREATE INDEX idx_resume_element_values_section_element_id ON public.resume_element_values (section_element_id);
+CREATE INDEX idx_resume_element_values_input_type_id ON public.resume_element_values (input_type_id);
