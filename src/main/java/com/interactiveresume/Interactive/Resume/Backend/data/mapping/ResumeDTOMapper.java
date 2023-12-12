@@ -1,8 +1,10 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.mapping;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.ResumeDTO;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.Resume;
+import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.ResumeDTO;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ResumeDTOMapper implements DTOMapper<ResumeDTO, Resume> {
 
     /**

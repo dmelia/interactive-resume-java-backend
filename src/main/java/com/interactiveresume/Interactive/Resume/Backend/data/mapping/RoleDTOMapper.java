@@ -1,7 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.mapping;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.RoleDTO;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.Role;
+import com.interactiveresume.Interactive.Resume.Backend.data.dtos.auth.RoleDTO;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.Role;
 import org.springframework.stereotype.Component;
 
 /**

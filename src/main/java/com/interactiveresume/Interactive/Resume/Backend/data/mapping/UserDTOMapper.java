@@ -1,8 +1,8 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.mapping;
 
 
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.UserDTO;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.User;
+import com.interactiveresume.Interactive.Resume.Backend.data.dtos.auth.UserDTO;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import org.springframework.stereotype.Component;
 
 /**

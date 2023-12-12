@@ -1,6 +1,6 @@
 package com.interactiveresume.Interactive.Resume.Backend.configuration;
 
-import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.JwtService;
+import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
