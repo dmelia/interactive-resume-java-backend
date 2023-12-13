@@ -2,6 +2,7 @@ package com.interactiveresume.Interactive.Resume.Backend.data.models.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionType;
 import com.interactiveresume.Interactive.Resume.Backend.utils.EncryptionService;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -92,6 +93,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Resume> resumes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<SectionType> sectionTypes = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

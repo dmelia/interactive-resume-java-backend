@@ -2,12 +2,15 @@ package com.interactiveresume.Interactive.Resume.Backend.services.impl.auth;
 
 import com.interactiveresume.Interactive.Resume.Backend.constants.Constants;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.Role;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionType;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.InputInvalidException;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.auth.UserJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth.UserService;
+import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.SectionTypeService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +30,8 @@ import java.util.regex.Pattern;
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    private final SectionTypeService sectionTypeService;
+
     private final UserJPARepository userJPARepository;
 
     private static final Pattern EMAIL = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -43,9 +48,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * Constructor
      * @param userJPARepository
+     * @param sectionTypeService
      */
-    public UserServiceImpl(UserJPARepository userJPARepository) {
+    public UserServiceImpl(UserJPARepository userJPARepository, SectionTypeService sectionTypeService) {
         this.userJPARepository = userJPARepository;
+        this.sectionTypeService = sectionTypeService;
     }
 
 
@@ -106,6 +113,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
            throw new InputInvalidException();
         }
         user.setActive(true);
+
+        // Find the generic SectionTypes, create a clone for each and save them to the user
+        List<SectionType> genericSectionTypes = sectionTypeService.getGenericSectionTypes();
+        List<SectionType> newSectionTypes = new ArrayList<>();
+
+        genericSectionTypes.forEach(sectionType -> {
+            newSectionTypes.add(sectionType.clone());
+        });
+
+        // Set the user's new section types
+        user.setSectionTypes(newSectionTypes);
+
         return userJPARepository.save(user);
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 // This class defines the fields of the section types
-public class SectionInputType {
+public class SectionInputType implements Cloneable{
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
@@ -44,4 +44,18 @@ public class SectionInputType {
 
     @OneToMany(mappedBy = "inputType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ElementValue> values = new ArrayList<>();
+
+    @Override
+    public SectionInputType clone() {
+        try {
+            SectionInputType clone = (SectionInputType) super.clone();
+            // Set the ID to null to ensure it gets a new ID when saved
+            clone.setId(null);
+            // Create a deep copy of the list of ElementValue
+            clone.setValues(new ArrayList<>());
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

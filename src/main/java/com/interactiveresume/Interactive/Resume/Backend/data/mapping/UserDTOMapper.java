@@ -5,6 +5,9 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.auth.UserDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The User and UserDTO mapper
  */

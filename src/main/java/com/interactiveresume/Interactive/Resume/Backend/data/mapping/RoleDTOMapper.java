@@ -4,6 +4,8 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.auth.RoleDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.Role;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * The Role and RoleDTO mapper
  */

@@ -33,5 +33,6 @@ public class ElementValue {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "input_type_id", referencedColumnName = "id", nullable = false)
+    // Describes what type of input the field is
     private SectionInputType inputType;
 }

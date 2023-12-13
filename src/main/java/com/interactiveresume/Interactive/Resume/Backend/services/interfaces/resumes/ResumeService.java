@@ -23,7 +23,7 @@ public interface ResumeService {
 
     /**
      * Deletes a {@link Resume} from the database
-     * @param resume The {@link Resume} to remove
+     * @param id The id of the {@link Resume} to remove
      */
-    void deleteResume(Resume resume);
+    void deleteResume(Long id);
 }

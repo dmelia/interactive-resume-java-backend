@@ -31,7 +31,14 @@ public class SectionElement {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "resume_id", referencedColumnName = "id", nullable = false)
+    // Link to the actual resume
+    private Resume resume;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "section_type_id", referencedColumnName = "id", nullable = false)
+    // Link to the type of section
     private SectionType sectionType;
 
     @OneToMany(mappedBy = "sectionElement", cascade = CascadeType.ALL, orphanRemoval = true)

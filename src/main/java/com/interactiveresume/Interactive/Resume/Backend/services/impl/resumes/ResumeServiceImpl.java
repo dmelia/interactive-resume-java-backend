@@ -78,21 +78,10 @@ public class ResumeServiceImpl implements ResumeService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteResume(Resume resume) {
-        // Check id is not null
-        if (resume.getId() != null) {
-            Optional<Resume> existingResumeOpt = resumeJPARepository.findById(resume.getId());
-            if (existingResumeOpt.isEmpty()) {
-                // Existing resume was not found, throw invalid input exception
-                throw new InputInvalidException();
-            } else {
-
-
-                // Delete the entry
-                resumeJPARepository.deleteById(resume.getId());
-            }
-        } else {
-            throw new InputInvalidException();
+    public void deleteResume(Long id) {
+        if (id != null) {
+            // Thanks to orphan removal set to true on the models, this should also delete any straggling resume data
+            resumeJPARepository.deleteById(id);
         }
     }
 }

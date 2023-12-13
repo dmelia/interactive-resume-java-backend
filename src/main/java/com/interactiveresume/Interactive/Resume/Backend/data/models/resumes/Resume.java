@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Entity
@@ -34,4 +35,7 @@ public class Resume {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SectionElement> sections;
 }
