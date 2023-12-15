@@ -37,5 +37,5 @@ public class Resume {
     private int version;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SectionElement> sections;
+    private List<ResumePage> pages;
 }

@@ -31,9 +31,9 @@ public class SectionElement {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "resume_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "page_id", referencedColumnName = "id", nullable = false)
     // Link to the actual resume
-    private Resume resume;
+    private ResumePage page;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

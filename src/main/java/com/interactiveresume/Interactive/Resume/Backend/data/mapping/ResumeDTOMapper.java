@@ -4,6 +4,7 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.Resume
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -14,11 +15,17 @@ public class ResumeDTOMapper implements DTOMapper<ResumeDTO, Resume> {
      */
     @Override
     public ResumeDTO mapModel(Resume resume) {
-        return ResumeDTO.builder()
+        ResumeDTO dto = ResumeDTO.builder()
                 .id(resume.getId())
                 .name(resume.getName())
                 .icon(resume.getIcon())
                 .build();
+        List<Long> sectionIds = new ArrayList<>();
+        resume.getSections().forEach(sectionElement -> {
+           sectionIds.add(sectionElement.getId());
+        });
+        dto.setSections(sectionIds);
+        return dto;
     }
 
     /**

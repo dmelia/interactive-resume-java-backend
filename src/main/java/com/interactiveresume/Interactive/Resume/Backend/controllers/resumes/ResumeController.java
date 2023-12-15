@@ -37,8 +37,7 @@ public class ResumeController {
 
     @PostMapping("/resumes")
     public ResponseEntity<ResumeDTO> createResume(@RequestBody ResumeDTO resumeDTO) throws UserNotFoundException {
-        Resume resumeToSave = resumeDTOMapper.mapDTO(resumeDTO);
-        Resume savedResume = resumeService.saveResume(resumeToSave);
+        Resume savedResume = resumeService.saveResume(resumeDTO);
 
         return new ResponseEntity<>(resumeDTOMapper.mapModel(savedResume), HttpStatus.OK);
     }

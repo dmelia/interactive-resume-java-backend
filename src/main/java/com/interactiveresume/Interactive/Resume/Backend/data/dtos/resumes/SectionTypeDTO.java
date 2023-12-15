@@ -9,22 +9,27 @@ import org.springframework.lang.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResumeDTO {
+public class SectionTypeDTO {
 
     @Nullable
     private Long id;
 
     @Nullable
-    private String name;
+    private String title;
+
+    @Nullable
+    private String description;
+
+    @Nullable
+    private String notes;
 
     @Nullable
     private String icon;
 
     @Builder.Default
-    private List<Long> sections = new ArrayList<>();
- }
+    private List<Long> elements = new ArrayList<>();
+}

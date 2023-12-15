@@ -1,5 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.impl.resumes;
 
+import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.ResumeDTO;
+import com.interactiveresume.Interactive.Resume.Backend.data.mapping.ResumeDTOMapper;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.InputInvalidException;
@@ -21,14 +23,18 @@ public class ResumeServiceImpl implements ResumeService {
 
     private final UserService userService;
 
+    private final ResumeDTOMapper resumeDTOMapper;
+
     /**
      * Constructor
      * @param resumeJPARepository
      * @param userService
+     * @param resumeDTOMapper
      */
-    public ResumeServiceImpl(ResumeJPARepository resumeJPARepository, UserService userService) {
+    public ResumeServiceImpl(ResumeJPARepository resumeJPARepository, UserService userService, ResumeDTOMapper resumeDTOMapper) {
         this.resumeJPARepository = resumeJPARepository;
         this.userService = userService;
+        this.resumeDTOMapper = resumeDTOMapper;
     }
 
     /**
@@ -43,18 +49,21 @@ public class ResumeServiceImpl implements ResumeService {
      * {@inheritDoc}
      */
     @Override
-    public Resume saveResume(Resume resume) throws UserNotFoundException {
-        if (resume.getId() != null) {
+    public Resume saveResume(ResumeDTO resumeDTO) throws UserNotFoundException {
+        if (resumeDTO.getId() != null) {
             // We are dealing with an existing Resume object
-            Optional<Resume> existingResumeOpt = resumeJPARepository.findById(resume.getId());
+            Optional<Resume> existingResumeOpt = resumeJPARepository.findById(resumeDTO.getId());
             if (existingResumeOpt.isEmpty()) {
                 // id input was not valid, if it is a new object to be saved, then we require the id field to be empty
                 throw new InputInvalidException();
             } else {
                 Resume existingResume = existingResumeOpt.get();
+
+                // TODO : check ownership
+
                 // We only update if something has changed, we do not allow change of ownership
-                if (resume.getName() != null) {
-                    existingResume.setName(resume.getName());
+                if (resumeDTO.getName() != null) {
+                    existingResume.setName(resumeDTO.getName());
                 }
                 return resumeJPARepository.save(existingResume);
             }
@@ -62,12 +71,13 @@ public class ResumeServiceImpl implements ResumeService {
 
         // Here we are creating a new Resume in the database
         // Check the fields are properly set
-        if (resume.getName() == null || resume.getName().isEmpty()) {
+        if (resumeDTO.getName() == null || resumeDTO.getName().isEmpty()) {
             // We need a name, throw an exception
             throw new InputInvalidException();
         }
         // Set the owner as the connected user
         User currentUser = userService.getCurrentUser();
+        Resume resume = resumeDTOMapper.mapDTO(resumeDTO);
         resume.setUser(currentUser);
 
         // Save the resume
@@ -81,7 +91,18 @@ public class ResumeServiceImpl implements ResumeService {
     public void deleteResume(Long id) {
         if (id != null) {
             // Thanks to orphan removal set to true on the models, this should also delete any straggling resume data
+            // TODO : check ownership
             resumeJPARepository.deleteById(id);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Resume getResume(Long id) {
+        Optional<Resume> optional = resumeJPARepository.findById(id);
+        // TODO : check ownership
+        return optional.orElse(null);
     }
 }

@@ -1,30 +1,35 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResumeDTO {
+public class SectionElementDTO {
 
     @Nullable
     private Long id;
 
     @Nullable
-    private String name;
+    private Integer position;
 
-    @Nullable
-    private String icon;
+    @NotNull
+    private Long sectionTypeId;
 
+    @NotNull
+    private Long resumePageId;
+
+    @NotNull
     @Builder.Default
-    private List<Long> sections = new ArrayList<>();
- }
+    private List<Long> elements = new ArrayList<>();
+}
