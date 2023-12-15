@@ -10,21 +10,67 @@ import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundE
 import java.util.List;
 
 public interface SectionTypeService {
-    // TODO : javadoc
 
+    /**
+     * Deletes a {@link SectionType} by its id, checks ownership
+     *
+     * @param id the id of the {@link SectionType}
+     * @throws UserNotFoundException if the current user cannot be found
+     */
     void deleteSectionType(Long id) throws UserNotFoundException;
 
+    /**
+     * Saves or updates a {@link SectionType} then returns it using the data from the {@link SectionTypeDTO}, checks valid parameters
+     *
+     * @param sectionType The {@link SectionTypeDTO} containing the data to be saved
+     * @return The saved {@link SectionType}
+     */
     SectionType saveSectionType(SectionTypeDTO sectionType);
 
-    List<SectionType> getSectionTypes(User user);
+    /**
+     * Gets a {@link List<SectionType>} linked to the current {@link User} account
+     *
+     * @return The found {@link List<SectionType>}
+     * @throws UserNotFoundException if the user is not found
+     */
+    List<SectionType> getSectionTypes() throws UserNotFoundException;
 
+    /**
+     * Finds all the generic instances of {@link SectionType} from the database
+     *
+     * @return The found {@link List<SectionType>}
+     */
     List<SectionType> getGenericSectionTypes();
 
+    /**
+     * Deletes a {@link SectionInputType} from the database by its id, checks ownership
+     *
+     * @param id the id to search for
+     * @throws UserNotFoundException if the user is not found
+     */
     void deleteSectionInputType(Long id) throws UserNotFoundException;
 
+    /**
+     * Saves or updates a {@link SectionInputType} then returns it using the data from the {@link SectionInputTypeDTO}, checks valid parameters
+     *
+     * @param sectionInputType The {@link SectionInputTypeDTO} containing the data
+     * @return The saved {@link SectionInputType}
+     */
     SectionInputType saveSectionInputType(SectionInputTypeDTO sectionInputType);
 
+    /**
+     * Returns a {@link SectionType} by its id, checks ownership
+     *
+     * @param id the id to search for
+     * @return The found {@link SectionType}
+     */
     SectionType getSectionTypeById(Long id);
 
-    SectionInputType getSectionInputTypeById(Long sectionInputTypeId);
+    /**
+     * Returns a {@link SectionInputType} by its id, checks ownership
+     *
+     * @param id the id to search for
+     * @return The found {@link SectionInputType}
+     */
+    SectionInputType getSectionInputTypeById(Long id);
 }

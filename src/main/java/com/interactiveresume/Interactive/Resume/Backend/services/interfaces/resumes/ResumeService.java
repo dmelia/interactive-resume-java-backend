@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface ResumeService {
     // TODO : update javadoc
+
     /**
      * Finds a {@link List<Resume>} by {@link User} which owns them
+     *
      * @param user the {@link User}
      * @return the found {@link List<Resume>}
      */
@@ -18,6 +20,7 @@ public interface ResumeService {
 
     /**
      * Creates or updates a {@link Resume} to the database
+     *
      * @param resume The {@link ResumeDTO} to create or update
      * @return the saved {@link Resume}
      */
@@ -25,12 +28,14 @@ public interface ResumeService {
 
     /**
      * Deletes a {@link Resume} from the database
+     *
      * @param id The id of the {@link Resume} to remove
      */
     void deleteResume(Long id);
 
     /**
      * Returns a {@link Resume} by its id
+     *
      * @param id the id of the {@link Resume} to find
      * @return the found {@link Resume} or null
      */

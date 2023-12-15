@@ -10,7 +10,6 @@ import com.interactiveresume.Interactive.Resume.Backend.jpa.resumes.ElementValue
 import com.interactiveresume.Interactive.Resume.Backend.jpa.resumes.SectionElementJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth.UserService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.ResumePageService;
-import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.ResumeService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.SectionElementService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.SectionTypeService;
 import jakarta.transaction.Transactional;
@@ -32,6 +31,15 @@ public class SectionElementServiceImpl implements SectionElementService {
 
     private final ResumePageService resumePageService;
 
+    /**
+     * Constructor
+     *
+     * @param sectionElementJPARepository
+     * @param elementValueJPARepository
+     * @param sectionTypeService
+     * @param userService
+     * @param resumePageService
+     */
     public SectionElementServiceImpl(SectionElementJPARepository sectionElementJPARepository, ElementValueJPARepository elementValueJPARepository, SectionTypeService sectionTypeService, UserService userService, ResumePageService resumePageService) {
         this.sectionElementJPARepository = sectionElementJPARepository;
         this.elementValueJPARepository = elementValueJPARepository;

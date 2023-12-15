@@ -27,6 +27,13 @@ public class SectionTypeServiceImpl implements SectionTypeService {
 
     private final SectionInputTypeJPARepository sectionInputTypeJPARepository;
 
+    /**
+     * Constructor
+     *
+     * @param sectionTypeJPARepository
+     * @param userService
+     * @param sectionInputTypeJPARepository
+     */
     public SectionTypeServiceImpl(SectionTypeJPARepository sectionTypeJPARepository, UserService userService, SectionInputTypeJPARepository sectionInputTypeJPARepository) {
         this.sectionTypeJPARepository = sectionTypeJPARepository;
         this.userService = userService;
@@ -52,9 +59,9 @@ public class SectionTypeServiceImpl implements SectionTypeService {
     }
 
     @Override
-    public List<SectionType> getSectionTypes(User user) {
-        // TODO : check ownership
-        return sectionTypeJPARepository.findSectionTypesByUser(user);
+    public List<SectionType> getSectionTypes() throws UserNotFoundException {
+        User currentUser = userService.getCurrentUser();
+        return sectionTypeJPARepository.findSectionTypesByUser(currentUser);
     }
 
     @Override
