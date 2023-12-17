@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public.resume_section_types
     generic     BOOLEAN,
     version     INT,
     -- The reference to the user can be null, in the case of a generic section type
-    user_id   BIGINT REFERENCES public.user (id) NULL
+    user_id     BIGINT REFERENCES public.users (id) NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.resume_section_input_types
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS public.resume_section_elements
     version         INT,
     section_type_id BIGINT REFERENCES public.resume_section_types (id),
     CONSTRAINT unique_section_elements UNIQUE (position, section_type_id),
-    resume_id   BIGINT REFERENCES public.resumes (id)
+    resume_id       BIGINT REFERENCES public.resumes (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.resume_element_values

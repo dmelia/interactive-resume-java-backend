@@ -44,7 +44,7 @@ public class AuthController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
-            User user = userService.createUser(userDTOMapper.mapDTO(userDTO));
+            User user = userService.createUser(userDTO);
             System.out.println(user.getUsername());
             return new ResponseEntity<>(userDTOMapper.mapModel(user), HttpStatus.OK);
     }

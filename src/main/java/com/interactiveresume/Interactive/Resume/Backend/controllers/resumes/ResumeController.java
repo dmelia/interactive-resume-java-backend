@@ -1,16 +1,12 @@
 package com.interactiveresume.Interactive.Resume.Backend.controllers.resumes;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.auth.UserDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.ResumeDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.mapping.ResumeDTOMapper;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionType;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth.UserService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.ResumeService;
-import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.SectionTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +46,7 @@ public class ResumeController {
     }
 
     @DeleteMapping("/resume/{resumeId}")
-    public ResponseEntity<String> deleteResume(@PathVariable("resumeId") Long id){
+    public ResponseEntity<String> deleteResume(@PathVariable("resumeId") Long id) throws UserNotFoundException {
         resumeService.deleteResume(id);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }

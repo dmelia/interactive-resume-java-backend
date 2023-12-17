@@ -29,5 +29,5 @@ public class SectionInputTypeDTO {
     private String type;
 
     @Nullable
-    private int position;
+    private Integer position;
 }

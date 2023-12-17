@@ -27,6 +27,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     /**
      * Constructor
+     *
      * @param resumeJPARepository
      * @param userService
      * @param resumeDTOMapper
@@ -57,13 +58,15 @@ public class ResumeServiceImpl implements ResumeService {
                 // id input was not valid, if it is a new object to be saved, then we require the id field to be empty
                 throw new InputInvalidException();
             } else {
-                Resume existingResume = existingResumeOpt.get();
-
-                // TODO : check ownership
+                Resume existingResume = getResume(resumeDTO.getId());
+                if (existingResume == null) throw new InputInvalidException();
 
                 // We only update if something has changed, we do not allow change of ownership
                 if (resumeDTO.getName() != null) {
                     existingResume.setName(resumeDTO.getName());
+                }
+                if (resumeDTO.getIcon() != null) {
+                    existingResume.setIcon(resumeDTO.getIcon());
                 }
                 return resumeJPARepository.save(existingResume);
             }
@@ -77,21 +80,25 @@ public class ResumeServiceImpl implements ResumeService {
         }
         // Set the owner as the connected user
         User currentUser = userService.getCurrentUser();
-        Resume resume = resumeDTOMapper.mapDTO(resumeDTO);
+        Resume resume = Resume.builder()
+                .icon(resumeDTO.getIcon())
+                .name(resumeDTO.getName())
+                .user(currentUser)
+                .build();
         resume.setUser(currentUser);
 
         // Save the resume
-       return resumeJPARepository.save(resume);
+        return resumeJPARepository.save(resume);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void deleteResume(Long id) {
+    public void deleteResume(Long id) throws UserNotFoundException {
         if (id != null) {
             // Thanks to orphan removal set to true on the models, this should also delete any straggling resume data
-            // TODO : check ownership
+            getResume(id);
             resumeJPARepository.deleteById(id);
         }
     }
@@ -100,9 +107,15 @@ public class ResumeServiceImpl implements ResumeService {
      * {@inheritDoc}
      */
     @Override
-    public Resume getResume(Long id) {
+    public Resume getResume(Long id) throws UserNotFoundException {
         Optional<Resume> optional = resumeJPARepository.findById(id);
-        // TODO : check ownership
+        if (optional.isPresent()) {
+            User user = userService.getCurrentUser();
+            Resume resume = optional.get();
+            if (resume.getUser() == null || !resume.getUser().equals(user)) {
+                throw new InputInvalidException();
+            }
+        }
         return optional.orElse(null);
     }
 }

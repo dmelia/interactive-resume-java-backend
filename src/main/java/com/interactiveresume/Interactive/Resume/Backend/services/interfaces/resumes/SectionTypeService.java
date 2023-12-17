@@ -31,7 +31,7 @@ public interface SectionTypeService {
      * Gets a {@link List<SectionType>} linked to the current {@link User} account
      *
      * @return The found {@link List<SectionType>}
-     * @throws UserNotFoundException if the user is not found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     List<SectionType> getSectionTypes() throws UserNotFoundException;
 
@@ -46,7 +46,7 @@ public interface SectionTypeService {
      * Deletes a {@link SectionInputType} from the database by its id, checks ownership
      *
      * @param id the id to search for
-     * @throws UserNotFoundException if the user is not found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     void deleteSectionInputType(Long id) throws UserNotFoundException;
 
@@ -55,7 +55,7 @@ public interface SectionTypeService {
      *
      * @param sectionInputType The {@link SectionInputTypeDTO} containing the data
      * @return The saved {@link SectionInputType}
-     * @throws UserNotFoundException if the user is not found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     SectionInputType saveSectionInputType(SectionInputTypeDTO sectionInputType) throws UserNotFoundException;
 
@@ -64,7 +64,7 @@ public interface SectionTypeService {
      *
      * @param id the id to search for
      * @return The found {@link SectionType}
-     * @throws UserNotFoundException if the user is not found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     SectionType getSectionTypeById(Long id) throws UserNotFoundException;
 
@@ -73,7 +73,7 @@ public interface SectionTypeService {
      *
      * @param id the id to search for
      * @return The found {@link SectionInputType}
-     * @throws UserNotFoundException if the user is not found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     SectionInputType getSectionInputTypeById(Long id) throws UserNotFoundException;
 }

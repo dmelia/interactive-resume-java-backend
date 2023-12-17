@@ -6,17 +6,17 @@ $$
         skills_id          bigint;
     BEGIN
         -- Inserting generic section types and retrieve the ids
-        INSERT INTO public.resume_section_types (title, description, notes, icon, generic, version, resume_id)
+        INSERT INTO public.resume_section_types (title, description, notes, icon, generic, version, user_id)
         VALUES ('Work Experience', 'Details about your work experience',
                 'Additional notes about work experience section', 'work_icon.png', true, 1, NULL)
         RETURNING id INTO work_experience_id;
 
-        INSERT INTO public.resume_section_types (title, description, notes, icon, generic, version, resume_id)
+        INSERT INTO public.resume_section_types (title, description, notes, icon, generic, version, user_id)
         VALUES ('Education', 'Details about your education', 'Additional notes about education section',
                 'education_icon.png', true, 1, NULL)
         RETURNING id INTO education_id;
 
-        INSERT INTO public.resume_section_types (title, description, notes, icon, generic, version, resume_id)
+        INSERT INTO public.resume_section_types (title, description, notes, icon, generic, version, user_id)
         VALUES ('Skills', 'List of your skills', 'Additional notes about skills section', 'skills_icon.png', true, 1, NULL)
         RETURNING id INTO skills_id;
 

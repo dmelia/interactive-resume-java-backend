@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -37,5 +38,6 @@ public class Resume {
     private int version;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ResumePage> pages;
+    @Builder.Default
+    private List<ResumePage> pages = new ArrayList<>();
 }

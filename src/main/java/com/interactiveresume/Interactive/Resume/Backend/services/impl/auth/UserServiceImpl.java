@@ -1,6 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.impl.auth;
 
 import com.interactiveresume.Interactive.Resume.Backend.constants.Constants;
+import com.interactiveresume.Interactive.Resume.Backend.data.dtos.auth.UserDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.Role;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionType;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.InputInvalidException;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * Checks if an email is of a valid format
+     *
      * @param input the email to check
      * @return if the email is valid or not
      */
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * Constructor
+     *
      * @param userJPARepository
      * @param sectionTypeService
      */
@@ -66,13 +69,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String usernameFromAccessToken = userDetail.getUsername();
 
         Optional<User> optionalUser = userJPARepository.findByUsername(usernameFromAccessToken);
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
             throw new UserNotFoundException();
         }
     }
-
 
 
     /**
@@ -92,27 +94,56 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * {@inheritDoc}
      */
-    //TODO
     @Override
-    public User saveUser(User user) {
-        User savedUser = null;
-        if (!isEmail(user.getEmail())) {
+    public User saveUser(UserDTO userDTO) throws UserNotFoundException {
+        if (userDTO.getId() == null) throw new InputInvalidException();
+        Optional<User> optionalUser = userJPARepository.findById(userDTO.getId());
+
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+            User currentUser = getCurrentUser();
+
+            // Check if the current user has the same ID as the one being updated
+            if (existingUser.getId().equals(currentUser.getId())) {
+                // Update user fields
+                existingUser.setFirstname(userDTO.getFirstname());
+                existingUser.setLastname(userDTO.getLastname());
+                existingUser.setEmail(userDTO.getEmail());
+
+                // Save and return the updated user
+                return userJPARepository.save(existingUser);
+            } else {
+                // Throw an exception or handle unauthorized access
+                throw new InputInvalidException();
+            }
+        } else {
+            // Handle user not found
             throw new InputInvalidException();
         }
-        savedUser = userJPARepository.save(user);
-        return savedUser;
     }
 
     /**
      * {@inheritDoc}
      */
-    //TODO
     @Override
-    public User createUser(User user) {
-        if (!isEmail(user.getEmail())) {
-           throw new InputInvalidException();
+    public User createUser(UserDTO userDTO) {
+        if (!isEmail(userDTO.getEmail())) {
+            throw new InputInvalidException();
         }
-        user.setActive(true);
+
+        // Check if username or email already exists
+        if (userJPARepository.existsByUsernameOrEmail(userDTO.getUsername(), userDTO.getEmail())) {
+            throw new InputInvalidException();
+        }
+
+        User user = User.builder()
+                .username(userDTO.getUsername())
+                .password(userDTO.getPassword())
+                .firstname(userDTO.getFirstname())
+                .lastname(userDTO.getLastname())
+                .email(userDTO.getEmail())
+                .active(true)
+                .build();
 
         // Find the generic SectionTypes, create a clone for each and save them to the user
         List<SectionType> genericSectionTypes = sectionTypeService.getGenericSectionTypes();
@@ -131,7 +162,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * {@inheritDoc}
      */
-    //TODO
     @Override
     public User findByUsername(String input) {
         Optional<User> userOptional = userJPARepository.findByUsername(input);
@@ -145,7 +175,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User findByEmail(String input) throws UserNotFoundException {
         Optional<User> optionalUser = userJPARepository.findByEmail(input);
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
             throw new UserNotFoundException();
@@ -153,7 +183,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> findUsers() {
         return userJPARepository.findAll();
@@ -161,6 +193,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * The method inherited from the UserDetailsService interface, used by Spring Security
+     *
      * @param username the username of the user we wish to load
      * @return {@link UserDetails} the security details of the user
      * @throws {@link UsernameNotFoundException}

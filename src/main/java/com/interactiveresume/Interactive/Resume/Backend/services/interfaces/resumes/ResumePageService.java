@@ -34,11 +34,11 @@ public interface ResumePageService {
     void deleteResumePage(Long resumePageId) throws UserNotFoundException;
 
     /**
-     * Adds a new {@link ResumePage} to a resume based on the data from a {@link ResumePageDTO}
+     * Saves or updates a {@link ResumePage} for a resume based on the data from a {@link ResumePageDTO}
      *
      * @param resumePageDTO the {@link ResumePageDTO} containing the information
      * @return the created {@link ResumePage}
      * @throws UserNotFoundException if the user is not found
      */
-    ResumePage addResumePage(ResumePageDTO resumePageDTO) throws UserNotFoundException;
+    ResumePage saveResumePage(ResumePageDTO resumePageDTO) throws UserNotFoundException;
 }

@@ -8,7 +8,6 @@ import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundE
 import java.util.List;
 
 public interface ResumeService {
-    // TODO : update javadoc
 
     /**
      * Finds a {@link List<Resume>} by {@link User} which owns them
@@ -23,6 +22,7 @@ public interface ResumeService {
      *
      * @param resume The {@link ResumeDTO} to create or update
      * @return the saved {@link Resume}
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     Resume saveResume(ResumeDTO resume) throws UserNotFoundException;
 
@@ -30,7 +30,7 @@ public interface ResumeService {
      * Deletes a {@link Resume} from the database
      *
      * @param id The id of the {@link Resume} to remove
-     * @throws UserNotFoundException if the user is not found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     void deleteResume(Long id) throws UserNotFoundException;
 
@@ -39,7 +39,7 @@ public interface ResumeService {
      *
      * @param id the id of the {@link Resume} to find
      * @return the found {@link Resume} or null
-     * @throws UserNotFoundException
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     Resume getResume(Long id) throws UserNotFoundException;
 }

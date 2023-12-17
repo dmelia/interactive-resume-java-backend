@@ -22,7 +22,7 @@ public interface SectionElementService {
      *
      * @param sectionElementDTO the {@link SectionElementDTO} containing the new data to be saved
      * @return the saved {@link SectionElement}
-     * @throws UserNotFoundException if the current user cannot be found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     SectionElement saveSectionElement(SectionElementDTO sectionElementDTO) throws UserNotFoundException;
 
@@ -32,6 +32,7 @@ public interface SectionElementService {
      *
      * @param value the {@link ElementValueDTO} to be saved
      * @return the saved {@link ElementValue}
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     ElementValue saveElementValue(ElementValueDTO value) throws UserNotFoundException;
 
@@ -40,7 +41,7 @@ public interface SectionElementService {
      *
      * @param resumePageId the id of the resume page
      * @return the found {@link List<SectionElement>}
-     * @throws UserNotFoundException if the current user cannot be found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     List<SectionElement> getSectionElementsByResumePage(Long resumePageId) throws UserNotFoundException;
 
@@ -48,7 +49,7 @@ public interface SectionElementService {
      * Deletes a {@link SectionElement} from the database by id, checks ownership
      *
      * @param sectionElementId the id of entity to delete
-     * @throws UserNotFoundException if the current user cannot be found
+     * @throws UserNotFoundException if the authenticated user cannot be found
      */
     void deleteSectionElement(Long sectionElementId) throws UserNotFoundException;
 }

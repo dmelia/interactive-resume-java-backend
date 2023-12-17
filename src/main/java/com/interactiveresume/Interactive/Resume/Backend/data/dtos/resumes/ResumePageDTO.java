@@ -25,10 +25,10 @@ public class ResumePageDTO {
     @Nullable
     private String name;
 
-    @NotNull
+    @Nullable
     private Integer index;
 
-    @NotNull
+    @Nullable
     @Builder.Default
     private List<Long> sections = new ArrayList<>();
 }
