@@ -55,22 +55,25 @@ public interface SectionTypeService {
      *
      * @param sectionInputType The {@link SectionInputTypeDTO} containing the data
      * @return The saved {@link SectionInputType}
+     * @throws UserNotFoundException if the user is not found
      */
-    SectionInputType saveSectionInputType(SectionInputTypeDTO sectionInputType);
+    SectionInputType saveSectionInputType(SectionInputTypeDTO sectionInputType) throws UserNotFoundException;
 
     /**
      * Returns a {@link SectionType} by its id, checks ownership
      *
      * @param id the id to search for
      * @return The found {@link SectionType}
+     * @throws UserNotFoundException if the user is not found
      */
-    SectionType getSectionTypeById(Long id);
+    SectionType getSectionTypeById(Long id) throws UserNotFoundException;
 
     /**
      * Returns a {@link SectionInputType} by its id, checks ownership
      *
      * @param id the id to search for
      * @return The found {@link SectionInputType}
+     * @throws UserNotFoundException if the user is not found
      */
-    SectionInputType getSectionInputTypeById(Long id);
+    SectionInputType getSectionInputTypeById(Long id) throws UserNotFoundException;
 }

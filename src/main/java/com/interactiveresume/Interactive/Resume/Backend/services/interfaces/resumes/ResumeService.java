@@ -30,14 +30,16 @@ public interface ResumeService {
      * Deletes a {@link Resume} from the database
      *
      * @param id The id of the {@link Resume} to remove
+     * @throws UserNotFoundException if the user is not found
      */
-    void deleteResume(Long id);
+    void deleteResume(Long id) throws UserNotFoundException;
 
     /**
      * Returns a {@link Resume} by its id
      *
      * @param id the id of the {@link Resume} to find
      * @return the found {@link Resume} or null
+     * @throws UserNotFoundException
      */
-    Resume getResume(Long id);
+    Resume getResume(Long id) throws UserNotFoundException;
 }

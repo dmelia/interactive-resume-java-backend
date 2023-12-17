@@ -21,22 +21,12 @@ public class ResumeDTOMapper implements DTOMapper<ResumeDTO, Resume> {
                 .icon(resume.getIcon())
                 .build();
         List<Long> sectionIds = new ArrayList<>();
-        resume.getSections().forEach(sectionElement -> {
-           sectionIds.add(sectionElement.getId());
+        resume.getPages().forEach(resumePage -> {
+            resumePage.getSections().forEach(sectionElement -> {
+                sectionIds.add(sectionElement.getId());
+            });
         });
         dto.setSections(sectionIds);
         return dto;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Resume mapDTO(ResumeDTO resumeDTO) {
-        return Resume.builder()
-                .name(resumeDTO.getName())
-                .id(resumeDTO.getId())
-                .icon(resumeDTO.getIcon())
-                .build();
     }
 }

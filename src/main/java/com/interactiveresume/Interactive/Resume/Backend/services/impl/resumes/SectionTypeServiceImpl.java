@@ -40,6 +40,9 @@ public class SectionTypeServiceImpl implements SectionTypeService {
         this.sectionInputTypeJPARepository = sectionInputTypeJPARepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteSectionType(Long id) throws UserNotFoundException {
         Optional<SectionType> optional = sectionTypeJPARepository.findById(id);
@@ -52,24 +55,35 @@ public class SectionTypeServiceImpl implements SectionTypeService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SectionType saveSectionType(SectionTypeDTO sectionType) {
         // TODO : the rest of the function
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<SectionType> getSectionTypes() throws UserNotFoundException {
         User currentUser = userService.getCurrentUser();
         return sectionTypeJPARepository.findSectionTypesByUser(currentUser);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<SectionType> getGenericSectionTypes() {
-        // TODO : check ownership
         return sectionTypeJPARepository.getGenericSectionTypes();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteSectionInputType(Long id) throws UserNotFoundException {
         if (id != null) {
@@ -85,41 +99,96 @@ public class SectionTypeServiceImpl implements SectionTypeService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public SectionInputType saveSectionInputType(SectionInputTypeDTO sectionInputType) {
-
-        return null;
-    }
-
-    public SectionInputType saveSectionInputType(SectionInputType sectionInputType, Long sectionTypeId) throws UserNotFoundException {
-        if (sectionTypeId != null) {
-            User user = userService.getCurrentUser();
-            Optional<SectionType> optional = sectionTypeJPARepository.findById(sectionTypeId);
-            if (optional.isPresent()) {
-                SectionType sectionType = optional.get();
-                if (sectionType.getUser() != null && sectionType.getUser().equals(user)) {
-                    // Here we have verified the section type is owned by the user
-                    // TODO : the rest of the function
-                }
-            } else {
-
-            }
+    public SectionInputType saveSectionInputType(SectionInputTypeDTO sectionInputTypeDTO) throws UserNotFoundException {
+        if (sectionInputTypeDTO == null || sectionInputTypeDTO.getSectionTypeId() == null) {
+            throw new InputInvalidException();
         }
-        return null;
+        Long sectionTypeId = sectionInputTypeDTO.getSectionTypeId();
+        Optional<SectionType> optional = sectionTypeJPARepository.findById(sectionTypeId);
+        if (optional.isEmpty()) {
+            throw new InputInvalidException();
+        }
+
+        SectionType sectionType = optional.get();
+        User user = userService.getCurrentUser();
+        if (sectionType.getUser() == null || !sectionType.getUser().equals(user)) {
+            throw new InputInvalidException();
+        }
+
+        // Ownership and section type is verified here
+        SectionInputType savedEntity;
+        if (sectionInputTypeDTO.getId() != null) {
+            Optional<SectionInputType> optionalFound = sectionInputTypeJPARepository.findById(sectionInputTypeDTO.getId());
+            if (optionalFound.isEmpty()) {
+                throw new InputInvalidException();
+            }
+            SectionInputType foundEntity = optionalFound.get();
+            if (sectionInputTypeDTO.getTitle() != null) foundEntity.setTitle(sectionInputTypeDTO.getTitle());
+            if (sectionInputTypeDTO.getType() != null) foundEntity.setType(sectionInputTypeDTO.getType());
+            if (sectionInputTypeDTO.getPosition() != null) foundEntity.setPosition(sectionInputTypeDTO.getPosition());
+
+            savedEntity = sectionInputTypeJPARepository.save(foundEntity);
+        } else {
+            SectionInputType entityToSave = SectionInputType.builder()
+                    .type(sectionInputTypeDTO.getType())
+                    .sectionType(sectionType)
+                    .title(sectionInputTypeDTO.getTitle())
+                    .position(sectionInputTypeDTO.getPosition() != null ? sectionInputTypeDTO.getPosition() : sectionInputTypeJPARepository.getNextPosition(sectionTypeId))
+                    .build();
+
+            savedEntity = sectionInputTypeJPARepository.save(entityToSave);
+        }
+
+        return savedEntity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public SectionType getSectionTypeById(Long id) {
-        // TODO : this function
-        return null;
+    public SectionType getSectionTypeById(Long sectionTypeId) throws UserNotFoundException {
+        if (sectionTypeId == null) {
+            throw new InputInvalidException();
+        }
+        SectionType sectionType = sectionTypeJPARepository.findById(sectionTypeId).orElse(null);
+        if (sectionType == null) {
+            return null;
+        }
+        if (sectionType.getUser() == null) {
+            throw new InputInvalidException();
+        }
+        User currentUser = userService.getCurrentUser();
+        if (!currentUser.equals(sectionType.getUser())) {
+            throw new InputInvalidException();
+        }
+
+        return sectionType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public SectionInputType getSectionInputTypeById(Long sectionInputTypeId) {
+    public SectionInputType getSectionInputTypeById(Long sectionInputTypeId) throws UserNotFoundException {
         if (sectionInputTypeId == null) {
             throw new InputInvalidException();
         }
-        // TODO : check ownership
-        return sectionInputTypeJPARepository.findById(sectionInputTypeId).orElse(null);
+        SectionInputType sectionInputType = sectionInputTypeJPARepository.findById(sectionInputTypeId).orElse(null);
+        if (sectionInputType != null) {
+            SectionType sectionType = sectionInputType.getSectionType();
+            if (sectionType != null) {
+                User currentUser = userService.getCurrentUser();
+                if (!currentUser.equals(sectionType.getUser())) {
+                    throw new InputInvalidException();
+                }
+            } else {
+                throw new InputInvalidException();
+            }
+        }
+        return sectionInputType;
     }
 }

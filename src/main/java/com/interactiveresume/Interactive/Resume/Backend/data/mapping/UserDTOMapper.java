@@ -29,20 +29,4 @@ public class UserDTOMapper implements DTOMapper<UserDTO, User>{
                 //.password(model.getPassword()) We never return the password from the model
                 .build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User mapDTO(UserDTO dto) {
-        return User.builder()
-                .username(dto.getUsername())
-                .active(dto.getActive())
-                .email(dto.getEmail())
-                .firstname(dto.getFirstname())
-                .id(dto.getId())
-                .lastname(dto.getLastname())
-                .password(dto.getPassword())
-                .build();
-    }
 }

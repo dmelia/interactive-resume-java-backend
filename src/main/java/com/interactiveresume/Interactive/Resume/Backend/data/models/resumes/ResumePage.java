@@ -26,7 +26,7 @@ public class ResumePage {
     private String name;
 
     @Column(name = "index")
-    private Long index;
+    private Integer index;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

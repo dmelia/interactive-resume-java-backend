@@ -14,20 +14,21 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SectionInputTypeDTO {
+public class ResumePageDTO {
 
     @Nullable
     private Long id;
 
     @NotNull
-    private Long sectionTypeId;
+    private Long resumeId;
 
     @Nullable
-    private String title;
+    private String name;
 
-    @Nullable
-    private String type;
+    @NotNull
+    private Integer index;
 
-    @Nullable
-    private int position;
+    @NotNull
+    @Builder.Default
+    private List<Long> sections = new ArrayList<>();
 }

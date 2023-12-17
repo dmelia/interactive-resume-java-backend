@@ -127,7 +127,7 @@ public class SectionElementServiceImpl implements SectionElementService {
      * {@inheritDoc}
      */
     @Override
-    public ElementValue saveElementValue(ElementValueDTO elementValueDTO) {
+    public ElementValue saveElementValue(ElementValueDTO elementValueDTO) throws UserNotFoundException {
         // Check input
         if (elementValueDTO == null || elementValueDTO.getSectionInputTypeId() == null || elementValueDTO.getSectionElementId() == null) {
             throw new InputInvalidException();

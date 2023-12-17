@@ -21,14 +21,4 @@ public class RoleDTOMapper implements DTOMapper<RoleDTO, Role> {
                 .name(role.getName())
                 .build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Role mapDTO(RoleDTO roleDTO) {
-        return Role.builder()
-                .name(roleDTO.getName())
-                .build();
-    }
 }
