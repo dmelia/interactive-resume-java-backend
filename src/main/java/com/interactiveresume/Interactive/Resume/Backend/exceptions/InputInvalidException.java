@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class InputInvalidException extends IllegalArgumentException {
+public class InputInvalidException extends RuntimeException {
 
     public InputInvalidException() {
         super("Input is invalid");
+    }
+
+    public InputInvalidException(String message) {
+        super(message);
     }
 }
