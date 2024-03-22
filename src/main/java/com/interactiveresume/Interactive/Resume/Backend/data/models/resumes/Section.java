@@ -9,12 +9,12 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "resume_section_elements")
+@Table(name = "resume_sections")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 // This class defines the values of the sections inside a resume
-public class SectionElement {
+public class Section {
 
     @Id
     @GeneratedValue
@@ -25,7 +25,6 @@ public class SectionElement {
     private int position;
 
     @Version
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
 
@@ -35,13 +34,7 @@ public class SectionElement {
     // Link to the actual resume
     private ResumePage page;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "section_type_id", referencedColumnName = "id", nullable = false)
-    // Link to the type of section
-    private SectionType sectionType;
-
-    @OneToMany(mappedBy = "sectionElement", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     // This contains the values of the fields
-    private List<ElementValue> elements = new ArrayList<>();
+    private List<SectionField> fields = new ArrayList<>();
 }

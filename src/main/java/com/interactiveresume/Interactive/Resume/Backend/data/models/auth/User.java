@@ -2,7 +2,6 @@ package com.interactiveresume.Interactive.Resume.Backend.data.models.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionType;
 import com.interactiveresume.Interactive.Resume.Backend.utils.EncryptionService;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -77,7 +76,6 @@ public class User {
     private Boolean active;
 
     @Version
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
 
@@ -93,9 +91,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Resume> resumes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<SectionType> sectionTypes = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
@@ -114,7 +109,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +

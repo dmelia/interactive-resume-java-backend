@@ -2,7 +2,7 @@ package com.interactiveresume.Interactive.Resume.Backend.data.mapping;
 
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.ResumePageDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.ResumePage;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionElement;
+import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Section;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +21,7 @@ public class ResumePageDTOMapper implements DTOMapper<ResumePageDTO, ResumePage>
                 .index(resumePage.getIndex())
                 .id(resumePage.getId())
                 .name(resumePage.getName())
-                .sections(resumePage.getSections().stream().map(SectionElement::getId).toList())
+                .sections(resumePage.getSections().stream().map(Section::getId).toList())
                 .build();
     }
 }

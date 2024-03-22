@@ -6,30 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SectionTypeDTO {
+public class SectionFieldDTO {
 
     @Nullable
     private Long id;
 
-    @Nullable
-    private String title;
+    @NotNull
+    private String value;
 
-    @Nullable
-    private String description;
+    @NotNull
+    private String type;
 
-    @Nullable
-    private String notes;
-
-    @Nullable
-    private String icon;
-
-    @Builder.Default
-    private List<Long> elements = new ArrayList<>();
+    @NotNull
+    private Long sectionId;
 }

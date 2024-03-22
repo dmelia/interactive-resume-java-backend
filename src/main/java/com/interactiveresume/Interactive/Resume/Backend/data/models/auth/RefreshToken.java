@@ -29,7 +29,6 @@ public class RefreshToken {
     private User userInfo;
 
     @Version
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
 }

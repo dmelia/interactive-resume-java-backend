@@ -1,5 +1,6 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,20 +15,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SectionInputTypeDTO {
+public class SectionDTO {
 
     @Nullable
     private Long id;
 
-    @NotNull
-    private Long sectionTypeId;
-
-    @Nullable
-    private String title;
-
-    @Nullable
-    private String type;
-
     @Nullable
     private Integer position;
+
+    @NotNull
+    private Long resumePageId;
+
+    @NotNull
+    @Builder.Default
+    private List<Long> fields = new ArrayList<>();
 }

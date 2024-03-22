@@ -33,7 +33,6 @@ public class Resume {
     private User user;
 
     @Version
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "version")
     private int version;
 

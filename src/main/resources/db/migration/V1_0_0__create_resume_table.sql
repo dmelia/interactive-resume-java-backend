@@ -21,11 +21,24 @@ CREATE TABLE public.resumes
 (
     id      serial NOT NULL PRIMARY KEY,
     name    VARCHAR(255),
+    icon    VARCHAR(255),
     version INTEGER,
     user_id bigint NOT NULL,
     CONSTRAINT fk_users_resumes_id
         FOREIGN KEY (user_id)
             REFERENCES public.users (id)
+);
+
+CREATE TABLE public.resume_pages
+(
+    id        serial NOT NULL PRIMARY KEY,
+    name      VARCHAR(255),
+    index     INTEGER,
+    version   INTEGER,
+    resume_id bigint NOT NULL,
+    CONSTRAINT fk_resumes_resume_pages_id
+        FOREIGN KEY (resume_id)
+            REFERENCES public.resumes (id)
 );
 
 CREATE UNIQUE INDEX idx_resume_id ON public.resumes (id);

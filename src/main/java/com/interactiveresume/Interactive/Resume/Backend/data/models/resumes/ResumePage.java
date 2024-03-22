@@ -28,12 +28,16 @@ public class ResumePage {
     @Column(name = "index")
     private Integer index;
 
+    @Version
+    @Column(name = "version")
+    private int version;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "resume_id", referencedColumnName = "id", nullable = false)
     // Link to the actual resume
     private Resume resume;
 
-    @OneToMany(mappedBy = "pages", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SectionElement> sections;
+    @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Section> sections;
 }
