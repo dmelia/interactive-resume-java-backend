@@ -1,21 +1,13 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes;
 
-import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.SectionFieldDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.SectionDTO;
-import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionField;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Section;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.UnauthorizedAccessException;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 
 import java.util.List;
 
 public interface SectionService {
-
-    /**
-     * Deletes all {@link Section} entities from the database for a given resume id
-     *
-     * @param resumeId the id of the resume
-     */
-    void deleteSectionsByResumeId(Long resumeId);
 
     /**
      * Returns a {@link Section} entity after saving changes received from the {@link SectionDTO}, checks valid parameters abd ownership
@@ -25,16 +17,6 @@ public interface SectionService {
      * @throws UserNotFoundException if the authenticated user cannot be found
      */
     Section saveSection(SectionDTO sectionDTO) throws UserNotFoundException;
-
-
-    /**
-     * Returns a saved {@link SectionField} entity after saving changes from the {@link SectionFieldDTO} to the database, checks valid parameters and ownership
-     *
-     * @param value the {@link SectionFieldDTO} to be saved
-     * @return the saved {@link SectionField}
-     * @throws UserNotFoundException if the authenticated user cannot be found
-     */
-    SectionField saveSectionField(SectionFieldDTO value) throws UserNotFoundException;
 
     /**
      * Returns all {@link Section} for a given resume page
@@ -48,8 +30,18 @@ public interface SectionService {
     /**
      * Deletes a {@link Section} from the database by id, checks ownership
      *
-     * @param sectionElementId the id of entity to delete
+     * @param sectionId the id of entity to delete
      * @throws UserNotFoundException if the authenticated user cannot be found
      */
-    void deleteSection(Long sectionElementId) throws UserNotFoundException;
+    void deleteSection(Long sectionId) throws UserNotFoundException;
+
+    /**
+     * Retrieves a {@link Section} by its id
+     *
+     * @param sectionId the id of the {@link Section}
+     * @return the found {@link Section}
+     * @throws UserNotFoundException       if the user is not found
+     * @throws UnauthorizedAccessException if the user is not authorized
+     */
+    Section getSectionById(Long sectionId) throws UserNotFoundException, UnauthorizedAccessException;
 }

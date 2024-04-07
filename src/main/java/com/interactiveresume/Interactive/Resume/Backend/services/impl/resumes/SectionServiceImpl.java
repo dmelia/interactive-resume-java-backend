@@ -5,6 +5,8 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.Sectio
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.*;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.InputInvalidException;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.SectionNotFoundException;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.UnauthorizedAccessException;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.resumes.SectionFieldJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.resumes.SectionJPARepository;
@@ -40,19 +42,6 @@ public class SectionServiceImpl implements SectionService {
         this.sectionFieldJPARepository = sectionFieldJPARepository;
         this.userService = userService;
         this.resumePageService = resumePageService;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void deleteSectionsByResumeId(Long id) {
-        if (id == null) {
-            throw new InputInvalidException();
-        }
-
-        // TODO : check ownership
-        sectionJPARepository.deleteSectionByPageId(id);
     }
 
     /**
@@ -114,51 +103,6 @@ public class SectionServiceImpl implements SectionService {
      * {@inheritDoc}
      */
     @Override
-    public SectionField saveSectionField(SectionFieldDTO sectionFieldDTO) throws UserNotFoundException {
-        // Check input
-        if (sectionFieldDTO == null) {
-            throw new InputInvalidException();
-        }
-
-        // Check SectionElement exists in the database
-        Optional<Section> optionalSectionElement = sectionJPARepository.findById(sectionFieldDTO.getSectionId());
-        if (optionalSectionElement.isEmpty()) {
-            throw new InputInvalidException();
-        }
-
-        // TODO : check ownership
-
-        SectionField savedEntity;
-        if (sectionFieldDTO.getId() != null) {
-            // Update an entity to the database
-            Optional<SectionField> optionalElementValue = sectionFieldJPARepository.findById(sectionFieldDTO.getId());
-            if (optionalElementValue.isEmpty()) {
-                throw new InputInvalidException();
-            }
-
-            // Update the values
-            SectionField foundEntity = optionalElementValue.get();
-            if (sectionFieldDTO.getValue() != null) {
-                foundEntity.setValue(sectionFieldDTO.getValue());
-            }
-            savedEntity = sectionFieldJPARepository.save(foundEntity);
-        } else {
-            // Save a new entity to the database
-            SectionField entityToSave = SectionField.builder()
-                    .value(sectionFieldDTO.getValue())
-                    .section(optionalSectionElement.get())
-                    .build();
-
-            savedEntity = sectionFieldJPARepository.save(entityToSave);
-        }
-
-        return savedEntity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List<Section> getSectionsByResumePage(Long resumePageId) throws UserNotFoundException {
         ResumePage resumePage = resumePageService.getResumePageById(resumePageId);
         User user = userService.getCurrentUser();
@@ -171,18 +115,39 @@ public class SectionServiceImpl implements SectionService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteSection(Long sectionElementId) throws UserNotFoundException {
-        if (sectionElementId == null) throw new InputInvalidException();
-        Optional<Section> optional = sectionJPARepository.findById(sectionElementId);
+    public void deleteSection(Long sectionId) throws UserNotFoundException {
+        if (sectionId == null) throw new InputInvalidException();
+        Optional<Section> optional = sectionJPARepository.findById(sectionId);
 
         User user = userService.getCurrentUser();
         if (optional.isPresent()) {
             Section sectionElement = optional.get();
             if (!sectionElement.getPage().getResume().getUser().equals(user)) {
-                throw new InputInvalidException();
+                throw new UnauthorizedAccessException();
             }
         }
 
-        sectionJPARepository.deleteById(sectionElementId);
+        sectionJPARepository.deleteById(sectionId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Section getSectionById(Long sectionId) throws UserNotFoundException, UnauthorizedAccessException {
+        if (sectionId == null) throw new InputInvalidException();
+        Optional<Section> optional = sectionJPARepository.findById(sectionId);
+
+        User user = userService.getCurrentUser();
+        if (optional.isPresent()) {
+            Section sectionElement = optional.get();
+            if (!sectionElement.getPage().getResume().getUser().equals(user)) {
+                throw new UnauthorizedAccessException();
+            }
+
+            return sectionElement;
+        } else {
+            throw new SectionNotFoundException();
+        }
     }
 }

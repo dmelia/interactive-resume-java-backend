@@ -32,6 +32,24 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.toString()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ResumeNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleResumeNotFoundException(ResumeNotFoundException ex) {
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.toString()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ResumePageNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleResumePageNotFoundException(ResumePageNotFoundException ex) {
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.toString()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SectionNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleSectionNotFoundException(SectionNotFoundException ex) {
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.toString()), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {

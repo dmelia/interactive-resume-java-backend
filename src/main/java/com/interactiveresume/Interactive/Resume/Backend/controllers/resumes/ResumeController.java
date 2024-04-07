@@ -31,22 +31,31 @@ public class ResumeController {
         this.userService = userService;
     }
 
+    // Create / Update
     @PostMapping("/resumes")
-    public ResponseEntity<ResumeDTO> createResume(@RequestBody ResumeDTO resumeDTO) throws UserNotFoundException {
+    public ResponseEntity<ResumeDTO> createResume(@RequestBody ResumeDTO resumeDTO) {
         Resume savedResume = resumeService.saveResume(resumeDTO);
-
         return new ResponseEntity<>(resumeDTOMapper.mapModel(savedResume), HttpStatus.OK);
     }
 
+    // Read
     @GetMapping("/resumes")
-    public ResponseEntity<List<ResumeDTO>> getResumes() throws UserNotFoundException {
+    public ResponseEntity<List<ResumeDTO>> getResumes() {
         User user = userService.getCurrentUser();
         List<ResumeDTO> resumeDTOS = resumeDTOMapper.mapModelList(resumeService.findResumeByUser(user));
         return new ResponseEntity<>(resumeDTOS, HttpStatus.OK);
     }
 
-    @DeleteMapping("/resume/{resumeId}")
-    public ResponseEntity<String> deleteResume(@PathVariable("resumeId") Long id) throws UserNotFoundException {
+    // Read all
+    @GetMapping("/resumes/{resumeId}")
+    public ResponseEntity<ResumeDTO> getResume(@PathVariable("resumeId") Long id) {
+        Resume resume = resumeService.getResume(id);
+        return new ResponseEntity<>(resumeDTOMapper.mapModel(resume), HttpStatus.OK);
+    }
+
+    // Delete
+    @DeleteMapping("/resumes/{resumeId}")
+    public ResponseEntity<String> deleteResume(@PathVariable("resumeId") Long id) {
         resumeService.deleteResume(id);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }

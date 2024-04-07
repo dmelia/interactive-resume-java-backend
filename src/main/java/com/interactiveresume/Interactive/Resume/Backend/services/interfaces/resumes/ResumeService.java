@@ -3,6 +3,7 @@ package com.interactiveresume.Interactive.Resume.Backend.services.interfaces.res
 import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.ResumeDTO;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.ResumeNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public interface ResumeService {
      * @param id the id of the {@link Resume} to find
      * @return the found {@link Resume} or null
      * @throws UserNotFoundException if the authenticated user cannot be found
+     * @throws ResumeNotFoundException if the resume cannot be found
      */
-    Resume getResume(Long id) throws UserNotFoundException;
+    Resume getResume(Long id) throws UserNotFoundException, ResumeNotFoundException;
 }

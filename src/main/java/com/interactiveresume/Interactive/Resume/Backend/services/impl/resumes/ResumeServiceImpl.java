@@ -5,6 +5,7 @@ import com.interactiveresume.Interactive.Resume.Backend.data.mapping.ResumeDTOMa
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.InputInvalidException;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.ResumeNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.resumes.ResumeJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.ResumeService;
@@ -107,15 +108,17 @@ public class ResumeServiceImpl implements ResumeService {
      * {@inheritDoc}
      */
     @Override
-    public Resume getResume(Long id) throws UserNotFoundException {
+    public Resume getResume(Long id) throws UserNotFoundException, ResumeNotFoundException {
         Optional<Resume> optional = resumeJPARepository.findById(id);
-        if (optional.isPresent()) {
+        if (optional.isEmpty()) {
+            throw new ResumeNotFoundException();
+        } else {
             User user = userService.getCurrentUser();
             Resume resume = optional.get();
             if (resume.getUser() == null || !resume.getUser().equals(user)) {
                 throw new InputInvalidException();
             }
+            return resume;
         }
-        return optional.orElse(null);
     }
 }

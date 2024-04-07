@@ -4,8 +4,7 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.Resume
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.ResumePage;
-import com.interactiveresume.Interactive.Resume.Backend.exceptions.InputInvalidException;
-import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
+import com.interactiveresume.Interactive.Resume.Backend.exceptions.*;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.resumes.ResumePageJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth.UserService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.ResumePageService;
@@ -44,16 +43,17 @@ public class ResumePageServiceImpl implements ResumePageService {
      * {@inheritDoc}
      */
     @Override
-    public ResumePage getResumePageById(Long resumePageId) throws UserNotFoundException {
+    public ResumePage getResumePageById(Long resumePageId) throws UserNotFoundException, ResumePageNotFoundException, UnauthorizedAccessException {
         Optional<ResumePage> optional = resumePageJPARepository.findById(resumePageId);
-        if (optional.isEmpty()) return null;
+        if (optional.isEmpty()) throw new ResumePageNotFoundException();
         ResumePage resumePage = optional.get();
         User currentUser = userService.getCurrentUser();
-        if (resumePage.getResume() == null || resumePage.getResume().getUser() == null || !resumePage.getResume().getUser().equals(currentUser)) {
+        if (currentUser == null) throw new UserNotFoundException();
+        if (resumePage.getResume() == null) {
             throw new InputInvalidException();
-        } else {
-            return resumePage;
         }
+        if (!resumePage.getResume().getUser().equals(currentUser)) throw new UnauthorizedAccessException();
+        return resumePage;
     }
 
     /**
@@ -70,9 +70,11 @@ public class ResumePageServiceImpl implements ResumePageService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteResumePage(Long resumePageId) throws UserNotFoundException {
+    public void deleteResumePage(Long resumePageId) throws UserNotFoundException, UnauthorizedAccessException {
         ResumePage resumePage = getResumePageById(resumePageId);
         if (resumePage != null) {
+            User currentUser = userService.getCurrentUser();
+            if (currentUser != resumePage.getResume().getUser()) throw new UnauthorizedAccessException();
             resumePageJPARepository.deleteById(resumePageId);
         }
     }
@@ -81,13 +83,15 @@ public class ResumePageServiceImpl implements ResumePageService {
      * {@inheritDoc}
      */
     @Override
-    public ResumePage saveResumePage(ResumePageDTO resumePageDTO) throws UserNotFoundException {
+    public ResumePage saveResumePage(ResumePageDTO resumePageDTO) throws UserNotFoundException, ResumeNotFoundException, UnauthorizedAccessException {
         if (resumePageDTO.getResumeId() == null) {
             throw new InputInvalidException();
         }
 
         Resume resume = resumeService.getResume(resumePageDTO.getResumeId());
-        if (resume == null) throw new InputInvalidException();
+        if (resume == null) throw new ResumeNotFoundException();
+        User currentUser = userService.getCurrentUser();
+        if (resume.getUser() != currentUser) throw new UnauthorizedAccessException();
 
         if (resumePageDTO.getId() == null && (resumePageDTO.getName() == null || resumePageDTO.getName().isEmpty())) {
             throw new InputInvalidException();
@@ -105,7 +109,7 @@ public class ResumePageServiceImpl implements ResumePageService {
             Optional<ResumePage> optionalResumePage = resumePageJPARepository.findById(resumePageDTO.getId());
 
             if (optionalResumePage.isEmpty()) {
-                throw new InputInvalidException();
+                throw new ResumeNotFoundException();
             }
             ResumePage foundEntity = optionalResumePage.get();
             if (resumePageDTO.getName() != null && !resumePageDTO.getName().isEmpty())

@@ -26,5 +26,5 @@ public class ResumeDTO {
     private String icon;
 
     @Builder.Default
-    private List<Long> sections = new ArrayList<>();
+    private List<Long> pages = new ArrayList<>();
  }
