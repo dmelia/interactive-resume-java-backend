@@ -40,7 +40,7 @@ public class SectionController {
     }
 
     // Read all
-    @GetMapping("/resumes/{resumeId}/resumepages/{resumePageId}/sections/")
+    @GetMapping("/resumes/{resumeId}/pages/{resumePageId}/sections/")
     public ResponseEntity<List<SectionDTO>> getSections(@PathVariable Long resumeId, @PathVariable Long resumePageId) {
         List<Section> sections = sectionService.getSectionsByResumePage(resumePageId);
         return new ResponseEntity<>(sectionDTOMapper.mapModelList(sections), HttpStatus.OK);

@@ -28,16 +28,16 @@ public class ResumePageController {
     }
 
     // Create / Update
-    @PostMapping("/resumes/{resumeId}/resumepages/")
-    public ResponseEntity<ResumePageDTO> createPage(@RequestBody ResumePageDTO resumePageDTO){
+    @PostMapping("/resumes/{resumeId}/pages/")
+    public ResponseEntity<ResumePageDTO> createPage(@RequestBody ResumePageDTO resumePageDTO) {
         ResumePage savedResumePage = resumePageService.saveResumePage(resumePageDTO);
         ResumePageDTO savedResumePageDTO = resumePageDTOMapper.mapModel(savedResumePage);
         return new ResponseEntity<>(savedResumePageDTO, HttpStatus.OK);
     }
 
     // Read all
-    @GetMapping("/resumes/{resumeId}/resumepages/")
-    public ResponseEntity<List<ResumePageDTO>> getResumePages(@PathVariable Long resumeId){
+    @GetMapping("/resumes/{resumeId}/pages/")
+    public ResponseEntity<List<ResumePageDTO>> getResumePages(@PathVariable Long resumeId) {
         List<ResumePage> pagesByResumeId = resumePageService.getResumePagesByResumeId(resumeId);
         List<ResumePageDTO> resumePageDTOList = resumePageDTOMapper.mapModelList(pagesByResumeId);
         return new ResponseEntity<>(resumePageDTOList, HttpStatus.OK);
@@ -45,15 +45,15 @@ public class ResumePageController {
 
 
     // Read
-    @GetMapping("/resumes/{resumeId}/resumepages/{resumePageId}")
-    public ResponseEntity<ResumePageDTO> getResumePages(@PathVariable Long resumeId, @PathVariable Long resumePageId){
+    @GetMapping("/resumes/{resumeId}/pages/{resumePageId}")
+    public ResponseEntity<ResumePageDTO> getResumePages(@PathVariable Long resumeId, @PathVariable Long resumePageId) {
         ResumePage resumePageById = resumePageService.getResumePageById(resumePageId);
         ResumePageDTO resumePageDTO = resumePageDTOMapper.mapModel(resumePageById);
         return new ResponseEntity<>(resumePageDTO, HttpStatus.OK);
     }
 
     // Delete
-    @DeleteMapping("resumes/{resumeId}/resumepages/{resumePageId}")
+    @DeleteMapping("resumes/{resumeId}/pages/{resumePageId}")
     public ResponseEntity<HttpStatus> deleteResumePage(@PathVariable Long resumeId, @PathVariable Long resumePageId) {
         resumePageService.deleteResumePage(resumePageId);
         return new ResponseEntity<>(HttpStatus.OK);

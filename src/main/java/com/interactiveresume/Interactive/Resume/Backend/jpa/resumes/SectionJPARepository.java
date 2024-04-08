@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SectionJPARepository extends JpaRepository<Section, Long> {
-    @Modifying
-    void deleteSectionByPageId(Long resumeId);
 
     @Query("SELECT (MAX(se.position) + 1) FROM Section se WHERE se.page.id=:resumePageId")
     int getNextPosition(Long resumePageId);

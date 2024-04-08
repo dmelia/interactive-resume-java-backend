@@ -50,6 +50,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.toString()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(SectionFieldNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleSectionFieldNotFoundException(SectionFieldNotFoundException ex) {
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.toString()), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
