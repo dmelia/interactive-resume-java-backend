@@ -13,6 +13,7 @@ import java.util.List;
 import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.API_ENDPOINT;
 
 @RestController
+@CrossOrigin
 @RequestMapping(API_ENDPOINT)
 public class SectionController {
 

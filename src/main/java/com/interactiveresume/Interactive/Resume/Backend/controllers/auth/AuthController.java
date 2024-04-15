@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.AUTH_ENDPOINT;
 
 @RestController
+@CrossOrigin
 @RequestMapping(AUTH_ENDPOINT)
 public class AuthController {
     private final UserService userService;
@@ -49,6 +50,7 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.userDTOMapper = userDTOMapper;
     }
+
 
     @PostMapping(value = "/signup")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
