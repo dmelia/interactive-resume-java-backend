@@ -34,6 +34,14 @@ public class AuthController {
 
     private final UserDTOMapper userDTOMapper;
 
+    /**
+     * Constructor
+     * @param userService
+     * @param jwtService
+     * @param refreshTokenService
+     * @param authenticationManager
+     * @param userDTOMapper
+     */
     public AuthController(UserService userService, JwtService jwtService, RefreshTokenService refreshTokenService, AuthenticationManager authenticationManager, UserDTOMapper userDTOMapper) {
         this.userService = userService;
         this.jwtService = jwtService;

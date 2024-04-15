@@ -17,7 +17,8 @@ import java.util.List;
 public class Section {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resume_sections_id_seq")
+    @SequenceGenerator(name = "resume_sections_id_seq", sequenceName = "resume_sections_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true)
     private Long id;
 

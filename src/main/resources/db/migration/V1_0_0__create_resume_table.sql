@@ -1,7 +1,9 @@
+CREATE SEQUENCE public.users_id_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE public.users
 (
     active    boolean,
-    id        serial NOT NULL PRIMARY KEY,
+    id        BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('users_id_seq'),
     email     VARCHAR(100) UNIQUE,
     firstname VARCHAR(100),
     lastname  VARCHAR(100),
@@ -17,9 +19,11 @@ CREATE TABLE public.roles
     name VARCHAR(50) NOT NULL PRIMARY KEY
 );
 
+CREATE SEQUENCE public.resumes_id_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE public.resumes
 (
-    id      serial NOT NULL PRIMARY KEY,
+    id        BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('resumes_id_seq'),
     name    VARCHAR(255),
     icon    VARCHAR(255),
     version INTEGER,
@@ -29,23 +33,27 @@ CREATE TABLE public.resumes
             REFERENCES public.users (id)
 );
 
+CREATE UNIQUE INDEX idx_resume_id ON public.resumes (id);
+
+CREATE SEQUENCE public.resume_pages_id_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE public.resume_pages
 (
-    id        serial NOT NULL PRIMARY KEY,
+    id        BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('resume_pages_id_seq'),
     name      VARCHAR(255),
     index     INTEGER,
     version   INTEGER,
-    resume_id bigint NOT NULL,
+    resume_id BIGINT NOT NULL,
     CONSTRAINT fk_resumes_resume_pages_id
         FOREIGN KEY (resume_id)
             REFERENCES public.resumes (id)
 );
 
-CREATE UNIQUE INDEX idx_resume_id ON public.resumes (id);
+CREATE UNIQUE INDEX idx_resume_page_id ON public.resume_pages (id);
 
 CREATE TABLE public.users_roles
 (
-    user_id   bigint      NOT NULL,
+    user_id   BIGINT      NOT NULL,
     CONSTRAINT fk_users_roles_users_id
         FOREIGN KEY (user_id)
             REFERENCES public.users (id),
@@ -61,6 +69,8 @@ INSERT INTO public.roles (name)
 VALUES ('STANDARD_USER');
 INSERT INTO public.roles (name)
 VALUES ('ADMIN_USER');
+
+
 
 -- Create the function that will be called by the trigger on user creation
 CREATE OR REPLACE FUNCTION public.insert_into_users_roles()

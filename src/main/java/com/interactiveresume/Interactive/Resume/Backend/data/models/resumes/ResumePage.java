@@ -18,7 +18,8 @@ import java.util.List;
 public class ResumePage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resume_pages_id_seq")
+    @SequenceGenerator(name = "resume_pages_id_seq", sequenceName = "resume_pages_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true)
     private Long id;
 

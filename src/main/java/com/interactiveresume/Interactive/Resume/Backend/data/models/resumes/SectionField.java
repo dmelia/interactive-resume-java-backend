@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 public class SectionField {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resume_section_fields_id_seq")
+    @SequenceGenerator(name = "resume_section_fields_id_seq", sequenceName = "resume_section_fields_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true)
     private Long id;
 

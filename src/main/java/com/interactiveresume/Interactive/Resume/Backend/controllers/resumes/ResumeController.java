@@ -4,7 +4,6 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.Resume
 import com.interactiveresume.Interactive.Resume.Backend.data.mapping.ResumeDTOMapper;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.Resume;
-import com.interactiveresume.Interactive.Resume.Backend.exceptions.UserNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth.UserService;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.ResumeService;
 import org.springframework.http.HttpStatus;

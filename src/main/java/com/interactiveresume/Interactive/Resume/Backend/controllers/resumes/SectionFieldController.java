@@ -4,9 +4,6 @@ import com.interactiveresume.Interactive.Resume.Backend.data.dtos.resumes.Sectio
 import com.interactiveresume.Interactive.Resume.Backend.data.mapping.SectionFieldDTOMapper;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.resumes.SectionField;
 import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.SectionFieldService;
-import com.interactiveresume.Interactive.Resume.Backend.services.interfaces.resumes.SectionService;
-import org.apache.tomcat.util.http.parser.HttpParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
