@@ -1,5 +1,6 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.impl.auth;
 
+import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.TokenNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.jpa.auth.RefreshTokenJPARepository;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.RefreshToken;
@@ -35,23 +36,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
      * {@inheritDoc}
      */
     @Override
-    public RefreshToken createRefreshToken(String username) {
-        // Delete any previous tokens for the user
-        refreshTokenJPARepository.deleteByUsername(username);
-
-        // Create a new token
-        RefreshToken refreshToken = RefreshToken.builder()
-                .userInfo(userService.findByUsername(username))
-                .token(UUID.randomUUID().toString())
-                .expiryDate(Instant.now().plusMillis(600000))
-                .build();
-        return refreshTokenJPARepository.saveAndFlush(refreshToken);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (isExpired(token)) {
             refreshTokenJPARepository.delete(token);
@@ -63,6 +47,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     /**
      * Checks if a token is expired or not
+     *
      * @param token the {@link RefreshToken} to verify
      * @return a boolean, if the token is expired or not
      */
@@ -75,10 +60,33 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
      */
     @Override
     public RefreshToken findByToken(String token) throws TokenNotFoundException {
-        Optional<RefreshToken> optionalRefreshToken = refreshTokenJPARepository.findByToken(token);
+        Optional<RefreshToken> optionalRefreshToken = refreshTokenJPARepository.findByToken(UUID.fromString(token));
         if (optionalRefreshToken.isPresent()) {
             return optionalRefreshToken.get();
         }
         throw new TokenNotFoundException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RefreshToken createToken(String username, Instant expiryDate) {
+        User user = userService.findByUsername(username);
+        RefreshToken refreshToken = RefreshToken.builder()
+                .expiryDate(expiryDate)
+                .token(UUID.randomUUID())
+                .userInfo(user)
+                .build();
+        return refreshTokenJPARepository.save(refreshToken);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteByUser(String username) {
+        refreshTokenJPARepository.deleteByUsername(username);
+        refreshTokenJPARepository.flush();
     }
 }

@@ -1,15 +1,12 @@
 package com.interactiveresume.Interactive.Resume.Backend.services.interfaces.auth;
 
+import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.User;
 import com.interactiveresume.Interactive.Resume.Backend.exceptions.TokenNotFoundException;
 import com.interactiveresume.Interactive.Resume.Backend.data.models.auth.RefreshToken;
 
+import java.time.Instant;
+
 public interface RefreshTokenService {
-    /**
-     * Creates a refresh token for a given username
-     * @param username the username
-     * @return the created {@link RefreshToken}
-     */
-    RefreshToken createRefreshToken(String username);
 
     /**
      * Verifies if a {@link RefreshToken} is expired or not
@@ -25,4 +22,18 @@ public interface RefreshTokenService {
      * @throws {@link TokenNotFoundException} if the token is not found
      */
     RefreshToken findByToken(String token) throws TokenNotFoundException;
+
+    /**
+     * Creates a new token in the database for the current connected {@link User}
+     * @param username the username
+     * @param expiryDate the expiry date
+     * @return the saved {@link RefreshToken}
+     */
+    RefreshToken createToken(String username, Instant expiryDate);
+
+    /**
+     * Deletes a {@link RefreshToken} by its username
+     * @param username the value of the username
+     */
+    void deleteByUser(String username);
 }

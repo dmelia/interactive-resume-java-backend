@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class TokenNotFoundException extends RuntimeException {
 
     public TokenNotFoundException() {
-        super("JWT token could not be found");
+        super("Token could not be found");
     }
 }

@@ -5,7 +5,7 @@ CREATE TABLE public.refresh_tokens
     id      BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('refresh_tokens_id_seq'),
     version INTEGER,
     expires TIMESTAMP(6) WITH TIME ZONE,
-    token   VARCHAR(255),
+    token   UUID,
     user_id BIGINT NOT NULL,
     CONSTRAINT fk_users_refresh_tokens_id
         FOREIGN KEY (user_id)

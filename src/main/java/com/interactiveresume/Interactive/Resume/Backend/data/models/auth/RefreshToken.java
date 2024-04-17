@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -19,7 +20,7 @@ public class RefreshToken {
     private Long id;
 
     @Column(name = "token")
-    private String token;
+    private UUID token;
 
     @Column(name = "expires")
     private Instant expiryDate;

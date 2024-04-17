@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 import static com.interactiveresume.Interactive.Resume.Backend.constants.Constants.AUTH_ENDPOINT;
 
 @RestController
@@ -37,6 +39,7 @@ public class AuthController {
 
     /**
      * Constructor
+     *
      * @param userService
      * @param jwtService
      * @param refreshTokenService
@@ -54,17 +57,21 @@ public class AuthController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
-            User user = userService.createUser(userDTO);
-            System.out.println(user.getUsername());
-            return new ResponseEntity<>(userDTOMapper.mapModel(user), HttpStatus.OK);
+        User user = userService.createUser(userDTO);
+        System.out.println(user.getUsername());
+        return new ResponseEntity<>(userDTOMapper.mapModel(user), HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDTO> AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if (authentication.isAuthenticated()) {
+            String jwt = jwtService.GenerateToken(authRequestDTO.getUsername());
+            RefreshToken createdToken = refreshTokenService.createToken(authRequestDTO.getUsername(), new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant());
             return new ResponseEntity<>(JwtResponseDTO.builder()
-                    .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername())).build(), HttpStatus.OK);
+                    .accessToken(jwt)
+                    .refreshToken(createdToken.getToken())
+                    .build(), HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request..!!");
         }
@@ -76,6 +83,10 @@ public class AuthController {
         token = refreshTokenService.verifyExpiration(token);
         User userInfo = token.getUserInfo();
         String accessToken = jwtService.GenerateToken(userInfo.getUsername());
-        return new ResponseEntity<>(JwtResponseDTO.builder().accessToken(accessToken).build(), HttpStatus.OK);
+        refreshTokenService.deleteByUser(userInfo.getUsername());
+        RefreshToken createdToken = refreshTokenService.createToken(userInfo.getUsername(), new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant());
+        JwtResponseDTO jwtResponseDTO = JwtResponseDTO.builder().accessToken(accessToken).refreshToken(createdToken.getToken()).build();
+
+        return new ResponseEntity<>(jwtResponseDTO, HttpStatus.OK);
     }
 }
