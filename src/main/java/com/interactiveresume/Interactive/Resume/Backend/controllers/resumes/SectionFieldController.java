@@ -53,8 +53,8 @@ public class SectionFieldController {
 
     // Delete
     @DeleteMapping("/sectionFields/{sectionFieldId}")
-    public ResponseEntity deleteSectionField(@PathVariable Long sectionFieldId) {
+    public ResponseEntity<String> deleteSectionField(@PathVariable Long sectionFieldId) {
         sectionFieldService.deleteSectionField(sectionFieldId);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

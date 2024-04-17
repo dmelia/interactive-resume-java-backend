@@ -33,9 +33,12 @@ public class ResumeController {
 
     // Create / Update
     @PostMapping("/resumes")
-    public ResponseEntity<ResumeDTO> createResume(@RequestBody ResumeDTO resumeDTO) {
-        Resume savedResume = resumeService.saveResume(resumeDTO);
-        return new ResponseEntity<>(resumeDTOMapper.mapModel(savedResume), HttpStatus.OK);
+    public ResponseEntity<List<ResumeDTO>> createResume(@RequestBody ResumeDTO resumeDTO) {
+        resumeService.saveResume(resumeDTO);
+        // Todo clean up this a bit more
+        User user = userService.getCurrentUser();
+        List<ResumeDTO> resumeDTOS = resumeDTOMapper.mapModelList(resumeService.findResumeByUser(user));
+        return new ResponseEntity<>(resumeDTOS, HttpStatus.OK);
     }
 
     // Read
@@ -57,6 +60,6 @@ public class ResumeController {
     @DeleteMapping("/resumes/{resumeId}")
     public ResponseEntity<String> deleteResume(@PathVariable("resumeId") Long id) {
         resumeService.deleteResume(id);
-        return new ResponseEntity<>("done",HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

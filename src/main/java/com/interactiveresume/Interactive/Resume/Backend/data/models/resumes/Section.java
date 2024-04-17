@@ -29,12 +29,15 @@ public class Section {
     @Column(name = "version")
     private int version;
 
+    @EqualsAndHashCode.Exclude
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "page_id", referencedColumnName = "id", nullable = false)
     // Link to the actual resume
     private ResumePage page;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     // This contains the values of the fields
     private List<SectionField> fields = new ArrayList<>();

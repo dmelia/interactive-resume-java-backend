@@ -28,8 +28,10 @@ public class Resume {
     @Column(name = "icon")
     private String icon;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
@@ -37,6 +39,8 @@ public class Resume {
     @Column(name = "version")
     private int version;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<ResumePage> pages = new ArrayList<>();

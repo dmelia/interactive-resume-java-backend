@@ -1,10 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models.resumes;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -33,8 +30,10 @@ public class ResumePage {
     @Column(name = "version")
     private int version;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "resume_id", referencedColumnName = "id", nullable = false)
     // Link to the actual resume
     private Resume resume;

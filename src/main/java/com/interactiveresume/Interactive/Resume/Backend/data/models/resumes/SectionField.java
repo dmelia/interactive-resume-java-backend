@@ -1,10 +1,7 @@
 package com.interactiveresume.Interactive.Resume.Backend.data.models.resumes;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
@@ -29,8 +26,9 @@ public class SectionField {
     @Column(name = "version")
     private int version;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
 }

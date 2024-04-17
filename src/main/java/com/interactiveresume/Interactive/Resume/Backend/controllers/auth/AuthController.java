@@ -67,7 +67,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if (authentication.isAuthenticated()) {
             String jwt = jwtService.GenerateToken(authRequestDTO.getUsername());
-            RefreshToken createdToken = refreshTokenService.createToken(authRequestDTO.getUsername(), new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant());
+            RefreshToken createdToken = refreshTokenService.createToken(authRequestDTO.getUsername(), new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5).toInstant());
             return new ResponseEntity<>(JwtResponseDTO.builder()
                     .accessToken(jwt)
                     .refreshToken(createdToken.getToken())

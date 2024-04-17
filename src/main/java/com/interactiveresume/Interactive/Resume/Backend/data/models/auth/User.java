@@ -89,6 +89,7 @@ public class User {
     @BatchSize(size = 20)
     private Set<Role> roles = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user")
     private List<Resume> resumes = new ArrayList<>();
 
